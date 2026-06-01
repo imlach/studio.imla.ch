@@ -1,1 +1,252 @@
-https://imla.ch
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Imla Studio — Dunkeld</title>
+  <meta name="description" content="Post-production for filmmakers — colour, sound, and music. A sibling project of imla.ch in Dunkeld, Scotland." />
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-dark.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-light.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="apple-touch-icon" href="favicons/04-r-period-dark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --bg-2: #131314;
+      --bg-3: #18181b;
+      --ink: #ede8dd;
+      --ink-dim: #8e8a82;
+      --ink-faint: #4a4844;
+      --rule: #1f1f22;
+      --accent: #c87a3a;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+    body {
+      font-family: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    a { color: var(--ink); text-decoration: none; }
+    a.inline {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    a.inline:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+    nav.top {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      padding: 24px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(to bottom, rgba(10,10,11,0.85), transparent);
+      backdrop-filter: blur(6px);
+    }
+    nav.top .wordmark {
+      font-weight: 700; font-size: 14px;
+    }
+    nav.top .wordmark::after {
+      content: '·';
+      color: var(--accent);
+      margin-left: 6px;
+    }
+    nav.top .meta {
+      font-size: 14px; color: var(--ink-dim);
+    }
+
+    main.stage {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 140px 40px 0;
+    }
+
+    section.hero {
+      position: relative;
+      min-height: 360px;
+      background: var(--bg-2);
+      overflow: hidden;
+      isolation: isolate;
+      margin-bottom: 96px;
+    }
+    section.hero .media-fill {
+      position: absolute; inset: 0;
+      background-image: url('assets/sound-room.png');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.55) contrast(1.05) saturate(0);
+      transform: scale(1.04);
+      z-index: 0;
+    }
+    section.hero .media-fill::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(10,10,11,0.95) 0%,
+        rgba(10,10,11,0.7) 35%,
+        rgba(10,10,11,0.25) 70%,
+        rgba(10,10,11,0.5) 100%);
+      z-index: 1;
+    }
+    section.hero .body {
+      position: relative; z-index: 2;
+      padding: 40px 36px 32px;
+      height: 100%;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      min-height: 360px;
+    }
+    section.hero h1 {
+      font-weight: 500;
+      font-size: clamp(32px, 3.6vw, 56px);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin: 0 0 18px;
+    }
+    section.hero .lede {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--ink-dim);
+      max-width: 44ch;
+      margin: 0;
+    }
+
+    section.intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      margin-bottom: 96px;
+      padding-top: 36px;
+      border-top: 1px solid var(--rule);
+    }
+    section.intro h2 {
+      font-weight: 500;
+      font-size: clamp(22px, 2.2vw, 32px);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin: 0;
+      text-wrap: balance;
+    }
+    section.intro .body { color: var(--ink-dim); }
+    section.intro p { margin: 0 0 14px; }
+    section.intro p:last-child { margin: 0; }
+
+    section.services {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      margin-bottom: 80px;
+    }
+    section.services .svc {
+      padding: 36px 28px;
+      border-top: 1px solid var(--rule);
+    }
+    section.services .svc + .svc {
+      border-left: 1px solid var(--rule);
+    }
+    section.services .svc h3 {
+      font-weight: 500;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      margin: 0 0 6px;
+    }
+    section.services .svc .kicker {
+      font-size: 13px;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 0 0 18px;
+    }
+    section.services .svc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      color: var(--ink-dim);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    section.services .svc li + li {
+      margin-top: 4px;
+    }
+
+    footer.folio {
+      margin-top: 80px;
+      padding: 28px 0 60px;
+      border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 20px; flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+
+    @media (max-width: 900px) {
+      nav.top { padding: 20px 24px; }
+      main.stage { padding: 110px 24px 0; }
+      section.intro { grid-template-columns: 1fr; gap: 24px; }
+      section.services { grid-template-columns: 1fr; }
+      section.services .svc + .svc { border-left: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top">
+    <a href="/" class="wordmark">Imla Studio</a>
+    <span class="meta">Dunkeld · sibling of <a class="inline" href="https://imla.ch">imla.ch</a></span>
+  </nav>
+
+  <main class="stage">
+    <section class="hero">
+      <div class="media-fill"></div>
+      <div class="body">
+        <h1>A small studio in Dunkeld.</h1>
+        <p class="lede">Post-production for filmmakers — colour, sound, music — and the tools we build for the work.</p>
+      </div>
+    </section>
+
+    <section class="intro">
+      <h2>Booking colour, audio, and music sessions from Q3.</h2>
+      <div class="body">
+        <p>Designed around quiet, collaborator-comfortable rooms — calibrated colour, 7.1.4 Atmos monitoring, and tracking space for small ensembles.</p>
+        <p>This page is a placeholder while the studio's own site comes together. Get in touch via <a class="inline" href="https://imla.ch">imla.ch</a> in the meantime.</p>
+      </div>
+    </section>
+
+    <section class="services">
+      <div class="svc">
+        <p class="kicker">Picture</p>
+        <h3>Colour grading</h3>
+        <ul>
+          <li>DaVinci Resolve Studio</li>
+          <li>Calibrated reference monitor, mini panel</li>
+          <li>Comfort for up to 4 collaborators</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <p class="kicker">Sound</p>
+        <h3>Audio suite</h3>
+        <ul>
+          <li>Pro Tools, Nuendo, Logic</li>
+          <li>Genelec 7.1.4 Dolby Atmos</li>
+          <li>24-fader control surface</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <p class="kicker">Music</p>
+        <h3>Tracking &amp; mixing</h3>
+        <ul>
+          <li>Logic, Pro Tools, Nuendo</li>
+          <li>Tracking space for small bands</li>
+          <li>Pre-amps, microphones, instruments</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="folio">
+      <span>studio.imla.ch · Imla Studio · Dunkeld</span>
+      <span>Booking colour, sound, and music · Scotland</span>
+    </footer>
+  </main>
+</body>
+</html>
