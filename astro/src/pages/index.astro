@@ -1,0 +1,255 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import SweepCard from "../components/SweepCard.astro";
+import { FILMS, SOUND_RECENT, TOOLS } from "../data/studio";
+
+const colourServices = [
+  { t: "Grade", d: "Davinci Resolve, ACES-managed. From single pickups to full feature delivery." },
+  { t: "Look development", d: "Custom LUTs, CDL workflows, on-set viewing pipelines." },
+  { t: "Conform & online", d: "Sync to picture, VFX integration, final masters and deliverables." },
+];
+const soundServices = [
+  { t: "Dialogue edit", d: "Cleanup, room tone, ADR conform. Per-reel or per-scene." },
+  { t: "Mix", d: "Music, dialogue, FX balance. Theatrical and streaming masters." },
+  { t: "Atmos & immersive", d: "7.1.4 in-house. Stereo and 5.1 fold-downs delivered alongside." },
+];
+const colourRecent = FILMS.map((f) => `${f.title} (${f.year})`).join(" · ");
+const featured = TOOLS[0];
+---
+
+<Base title="The Studio · Post-production for filmmakers">
+  <div style="position: relative">
+    <Nav />
+
+    {/* HERO — full bleed reel still + play affordance */}
+    <section style="position: relative; height: min(820px, 92vh); overflow: hidden">
+      <img
+        src="/images/feeble/3.jpg"
+        alt=""
+        style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; filter: brightness(0.68) saturate(0.92)"
+      />
+      <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.05) 70%, rgba(0,0,0,0.85) 100%)"></div>
+
+      {/* Showreel button */}
+      <button
+        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 16px; background: transparent; border: none; color: var(--ink); font-family: var(--font); font-size: 14.5px; letter-spacing: 0.04em; cursor: pointer"
+      >
+        <span style="width: 64px; height: 64px; border-radius: 50%; border: 1px solid rgba(237,232,221,0.5); display: flex; align-items: center; justify-content: center; font-size: 14px">▶</span>
+        <span>Showreel 2026 · 1:48</span>
+      </button>
+
+      {/* Bottom-anchored title */}
+      <div style="position: absolute; left: 48px; right: 48px; bottom: 60px">
+        <div style="font-size: 14px; color: rgba(237,232,221,0.7); margin-bottom: 22px; letter-spacing: 0.04em">
+          A post-production studio for filmmakers. Scotland.
+        </div>
+        <h1 style="font-size: clamp(64px, 11vw, 144px); font-weight: 600; letter-spacing: -0.045em; line-height: 0.88; margin: 0; color: var(--ink); font-family: var(--font-display)">The Studio.</h1>
+      </div>
+    </section>
+
+    {/* TRIPTYCH — three doors, each links to its section */}
+    <section class="section" id="work">
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px">
+        <a href="#colour" class="triptych-card">
+          <div class="media">
+            <img src="/images/feeble/3.jpg" alt="" />
+            <span class="jump"><span>To the suite</span><span class="arrow">↓</span></span>
+          </div>
+          <div style="padding-top: 20px">
+            <div style="font-size: 30px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 8px">Colour.</div>
+            <div style="font-size: 15px; color: var(--dim); line-height: 1.55">
+              Davinci Resolve, ACES managed. From single pickups to full feature delivery. HDR-ready.
+            </div>
+            <div style="font-size: 12px; color: var(--faint); margin-top: 14px">
+              Recent — SKIN · FEEBLE · Downtown Lights
+            </div>
+          </div>
+        </a>
+
+        <a href="#sound" class="triptych-card">
+          <div class="media">
+            <img src="/assets/sound-room.png" alt="" />
+            <span class="jump"><span>To the room</span><span class="arrow">↓</span></span>
+          </div>
+          <div style="padding-top: 20px">
+            <div style="font-size: 30px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 8px">Sound.</div>
+            <div style="font-size: 15px; color: var(--dim); line-height: 1.55">
+              Dialogue first, music second. Mix and premix for streaming and broadcast. Stereo, 5.1, and 7.1.4 Atmos in-house.
+            </div>
+            <div style="font-size: 12px; color: var(--faint); margin-top: 14px">
+              Pro Tools · Adam Audio + Genelec · Dunkeld
+            </div>
+          </div>
+        </a>
+
+        <a href="#tools" class="triptych-card">
+          <div class="media">
+            <img src="/images/sneaker/4.hd.jpg" alt="" style="filter: brightness(0.5) saturate(0.5)" />
+            <span class="jump"><span>To the bench</span><span class="arrow">↓</span></span>
+          </div>
+          <div style="padding-top: 20px">
+            <div style="font-size: 30px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 8px">Tools.</div>
+            <div style="font-size: 15px; color: var(--dim); line-height: 1.55">
+              Software we build for ourselves and our peers. The dailies pipeline. Timecode utilities. Open source where it helps.
+            </div>
+            <div style="font-size: 12px; color: var(--faint); margin-top: 14px">
+              github.com/imlach
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    {/* COLOUR deep-dive — the work grid lives inside */}
+    <section class="section" id="colour">
+      <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px">
+        <div>
+          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">01 — the suite</div>
+          <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Colour.</h2>
+        </div>
+        <div style="padding-top: 14px">
+          <p style="font-size: 19px; line-height: 1.65; margin: 0">
+            Davinci Resolve. ACES managed end-to-end. From single pickups to full feature delivery.
+          </p>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--dim); margin: 20px 0 0; max-width: 56ch">
+            We grade the films we shoot, and the films our friends shoot. Look development, conform, HDR + SDR masters in every flavour. Custom LUTs and CDL workflows when the project calls for it.
+          </p>
+        </div>
+      </div>
+
+      {/* Selected work — the visible body of the colour section */}
+      <div style="border-top: 1px solid var(--rule); padding-top: 40px; margin-bottom: 56px">
+        <div class="section-head" style="margin-bottom: 32px">
+          <h3 style="font-size: 22px; font-weight: 500; letter-spacing: -0.005em; margin: 0; color: var(--dim)">Selected work.</h3>
+          <span class="meta">Hover to preview the grade reveal. Open for the full case study.</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px">
+          {FILMS.map((f) => <SweepCard film={f} vtName={`film-${f.slug}`} />)}
+        </div>
+      </div>
+
+      {/* Service rows */}
+      <div style="border-top: 1px solid var(--rule)">
+        {
+          colourServices.map((s, i) => (
+            <div style="display: grid; grid-template-columns: 320px 1fr 120px; gap: 32px; padding: 26px 0; border-bottom: 1px solid var(--rule); align-items: baseline">
+              <span style="font-size: 28px; font-weight: 500; letter-spacing: -0.02em">{s.t}</span>
+              <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{s.d}</span>
+              <span style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <div style="padding: 36px 0 0">
+        <div style="font-size: 14px; color: var(--dim); margin-bottom: 14px">Recent — colour</div>
+        <div style="font-size: 17px; line-height: 1.7">{colourRecent}</div>
+      </div>
+    </section>
+
+    {/* SOUND deep-dive */}
+    <section class="section" id="sound">
+      <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px">
+        <div>
+          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">02 — the sound room</div>
+          <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Sound.</h2>
+        </div>
+        <div style="padding-top: 14px">
+          <p style="font-size: 19px; line-height: 1.65; margin: 0">
+            A small, treated room in Dunkeld. Adam Audio nearfields, Genelec 7.1.4 Atmos, Pro Tools.
+          </p>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--dim); margin: 20px 0 0; max-width: 56ch">
+            We mix the films we shoot, and the films our friends shoot. Dialogue editing, ADR supervision, premix for streaming and broadcast, masters in stereo, 5.1, and 7.1.4 Atmos.
+          </p>
+        </div>
+      </div>
+
+      {/* Real photograph of the room */}
+      <div style="position: relative; overflow: hidden; height: 480px">
+        <img
+          src="/assets/sound-room.png"
+          alt="The mix room — Adam Audio + Genelec 7.1.4 Atmos in Dunkeld"
+          style="width: 100%; height: 100%; object-fit: cover"
+        />
+      </div>
+
+      <div style="padding: 44px 0 0">
+        {
+          soundServices.map((s, i) => (
+            <div style="display: grid; grid-template-columns: 320px 1fr 120px; gap: 32px; padding: 26px 0; border-top: 1px solid var(--rule); align-items: baseline">
+              <span style="font-size: 28px; font-weight: 500; letter-spacing: -0.02em">{s.t}</span>
+              <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{s.d}</span>
+              <span style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
+            </div>
+          ))
+        }
+        <div style="border-top: 1px solid var(--rule); padding: 36px 0 0">
+          <div style="font-size: 14px; color: var(--dim); margin-bottom: 14px">Recent — sound</div>
+          <div style="font-size: 17px; line-height: 1.7">
+            <em style="color: var(--dim); font-style: normal">Mix —</em> {SOUND_RECENT.mix.join(" · ")}<br />
+            <em style="color: var(--dim); font-style: normal">Dialogue edit —</em> {SOUND_RECENT.dialogue.join(" · ")}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* TOOLS deep-dive */}
+    <section class="section" id="tools">
+      <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px">
+        <div>
+          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">03 — the bench</div>
+          <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Tools.</h2>
+        </div>
+        <div style="padding-top: 14px">
+          <p style="font-size: 19px; line-height: 1.65; margin: 0">
+            We make software for the work we do. Open source where it helps. Internal where it has to be.
+          </p>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--dim); margin: 20px 0 0; max-width: 56ch">
+            Run by a director of photography who's also a platform engineer. The tools come out of the friction of doing the work, not out of a roadmap.
+          </p>
+        </div>
+      </div>
+
+      {/* Featured tool */}
+      <div style="position: relative; height: 520px; overflow: hidden; border: 1px solid var(--rule)">
+        <img src="/images/bynow/4.hd.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) saturate(0.5)" />
+        <div style="position: absolute; inset: 0; background: linear-gradient(160deg, rgba(20,20,22,0.5) 0%, rgba(0,0,0,0.8) 100%)"></div>
+        <div style="position: absolute; top: 24px; left: 28px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(237,232,221,0.85)">In development</div>
+        <div style="position: absolute; bottom: 32px; left: 28px; right: 28px">
+          <h3 style="font-size: clamp(36px, 4.5vw, 56px); font-weight: 500; letter-spacing: -0.03em; line-height: 0.95; margin: 0; font-family: var(--font-display)">{featured.name}.</h3>
+          <p style="font-size: 16.5px; color: rgba(237,232,221,0.8); max-width: 60ch; margin: 18px 0 0; line-height: 1.55">
+            {featured.desc}
+          </p>
+        </div>
+      </div>
+
+      <div style="padding: 48px 0 0; display: grid; grid-template-columns: 240px 1fr; gap: 64px">
+        <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Why</div>
+        <p style="font-size: 17.5px; line-height: 1.65; margin: 0; max-width: 62ch">
+          Most colour and edit suites don't talk to your shoot the way they should. The work that gets lost in the dailies process is the same work that gets re-done in the grade — finding the take, finding the line, finding the look. <span style="color: var(--dim)">So we built something that doesn't lose it.</span>
+        </p>
+      </div>
+
+      <div style="padding: 44px 0 0">
+        <div style="font-size: 14px; color: var(--dim); margin-bottom: 18px; border-top: 1px solid var(--rule); padding-top: 28px">Released</div>
+        {
+          TOOLS.slice(1).map((t) => (
+            <div style="display: grid; grid-template-columns: 320px 1fr 140px; gap: 32px; padding: 20px 0; border-bottom: 1px solid var(--rule); align-items: baseline">
+              <span style="font-size: 26px; font-weight: 500; letter-spacing: -0.015em">{t.name}</span>
+              <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{t.desc}</span>
+              {t.link && (
+                <a href={t.link} style="font-size: 13px; color: var(--ink); border-bottom: 1px solid var(--faint); padding-bottom: 2px; text-align: right" target="_blank" rel="noopener">
+                  github.com/imlach ↗
+                </a>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <Footer />
+  </div>
+</Base>

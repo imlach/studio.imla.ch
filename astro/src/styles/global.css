@@ -1,0 +1,275 @@
+/* ============================================================
+   The Studio — shared chrome. Ported from the prototype's
+   studio.css. Pure-black sub-brand of imla.ch: shares the
+   tungsten accent + wordmark-dot, keeps Newsreader (serif) as a
+   deliberate sub-brand signal alongside Schibsted Grotesk body.
+   ============================================================ */
+:root {
+  --bg: #000000;
+  --bg-2: #0c0c0d;
+  --bg-3: #1c1c1e;
+  --ink: #ede8dd;
+  --dim: #9d958a;
+  --faint: #5a554c;
+  --rule: #1c1c1e;
+  --rule-soft: rgba(237, 232, 221, 0.08);
+
+  /* Tungsten accent — 3200K lamp-glow. Used sparingly: CTA arrows,
+     link hovers, footer dot. Ties the studio to the imla.ch family. */
+  --accent: #c87a3a;
+
+  --font: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Newsreader', Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html { scroll-behavior: smooth; }
+/* Sections with an id are anchor targets — leave room for the fixed nav. */
+.section[id] { scroll-margin-top: 24px; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ============================================================
+   TRIPTYCH CARDS — clickable, scrolls to the matching section.
+   Subtle reveal on hover signals the affordance.
+   ============================================================ */
+.triptych-card {
+  display: block; color: inherit; cursor: pointer;
+  transition: transform 0.5s cubic-bezier(.2,.7,.3,1);
+}
+.triptych-card .media {
+  position: relative; overflow: hidden;
+  height: 380px;
+}
+.triptych-card .media img {
+  width: 100%; height: 100%; object-fit: cover; filter: brightness(0.88);
+}
+.triptych-card .media::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.4s;
+  pointer-events: none;
+}
+.triptych-card:hover .media::after { opacity: 1; }
+.triptych-card .jump {
+  position: absolute; bottom: 18px; left: 22px;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; letter-spacing: 0.08em;
+  color: var(--ink);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.35s, transform 0.4s cubic-bezier(.2,.7,.3,1);
+}
+.triptych-card:hover .jump { opacity: 1; transform: translateY(0); }
+.triptych-card .jump .arrow { font-size: 13px; }
+
+/* ============================================================
+   SWEEP CARD — the landing-page work-grid card.
+   Uses the wipe-slider visual vocabulary (line sweeps from
+   left, log revealed underneath) but auto-animated on hover
+   so visitors don't have to interact. Case-study sliders are
+   the interactive cousin of this — same line, same logic.
+   ============================================================ */
+.sweep-card {
+  display: block; color: inherit; cursor: pointer;
+}
+.sweep-card .frame {
+  position: relative; overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-3);
+}
+.sweep-card .before,
+.sweep-card .after {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+}
+.sweep-card .before { filter: contrast(0.78) saturate(0.42) brightness(1.04) hue-rotate(-2deg); }
+.sweep-card .after {
+  filter: brightness(0.92);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.9s cubic-bezier(.2,.7,.3,1);
+}
+.sweep-card:hover .after { clip-path: inset(0 0 0 38%); }
+.sweep-card .sweep-line {
+  position: absolute; top: 0; bottom: 0;
+  left: 0; width: 1px;
+  background: rgba(237, 232, 221, 0.85);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: left 0.9s cubic-bezier(.2,.7,.3,1), opacity 0.3s;
+}
+.sweep-card:hover .sweep-line { left: 38%; opacity: 1; }
+.sweep-card .badge {
+  position: absolute; top: 14px; left: 16px;
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 4px 10px;
+  backdrop-filter: blur(6px);
+}
+.sweep-card .meta-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-top: 16px;
+}
+.sweep-card .title { font-size: 24px; font-weight: 500; letter-spacing: -0.015em; }
+.sweep-card .year { font-size: 14px; color: var(--dim); }
+.sweep-card .sub {
+  font-size: 14px; color: var(--dim);
+  margin-top: 4px; display: flex; justify-content: space-between;
+}
+.sweep-card .sub .meta { color: var(--faint); }
+
+/* ============================================================
+   WIPE SLIDER — interactive Resolve-style before/after wipe.
+   Drag-driven via Pointer Events (see WipeSlider.astro island).
+   ============================================================ */
+.wipe {
+  position: relative; overflow: hidden;
+  background: var(--bg-3);
+  cursor: ew-resize;
+  user-select: none;
+  touch-action: none;
+}
+.wipe .layer {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+}
+.wipe .layer.before { filter: contrast(0.78) saturate(0.42) brightness(1.04) hue-rotate(-2deg); }
+.wipe .layer.after {
+  filter: brightness(0.92);
+  clip-path: inset(0 0 0 var(--pct, 50%));
+}
+/* No transition while actively dragging; ease back otherwise. */
+.wipe:not(.dragging) .layer.after,
+.wipe:not(.dragging) .line { transition: clip-path 0.5s cubic-bezier(.2,.7,.3,1), left 0.5s cubic-bezier(.2,.7,.3,1); }
+.wipe .line {
+  position: absolute; top: 0; bottom: 0;
+  left: var(--pct, 50%);
+  width: 1px;
+  background: rgba(237, 232, 221, 0.85);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.wipe .handle {
+  position: absolute; top: 50%; left: -18px;
+  width: 36px; height: 36px; margin-top: -18px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(237, 232, 221, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--ink);
+}
+.wipe .corner {
+  position: absolute; top: 18px;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  pointer-events: none;
+}
+.wipe .corner.log { left: 20px; color: rgba(237, 232, 221, 0.85); }
+.wipe .corner.graded { right: 20px; color: var(--ink); }
+
+/* ============================================================
+   NAV — same shape on every page. Sits over the hero.
+   ============================================================ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 26px 48px;
+  font-size: 14px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+.nav > * { pointer-events: auto; }
+.nav .wordmark {
+  font-weight: 500; letter-spacing: 0.005em; color: var(--ink);
+  view-transition-name: studio-wordmark;
+}
+/* Tungsten dot after the wordmark — same accent treatment as imla.ch. */
+.nav .wordmark::after {
+  content: "·";
+  color: var(--accent);
+  margin-left: 6px;
+}
+/* Cross-link back to imla.ch — sits to the right of the main nav links. */
+.nav .back {
+  font-size: 14px; color: var(--dim);
+  transition: color 0.2s;
+}
+.nav .back:hover { color: var(--ink); }
+.nav .back-sep {
+  color: var(--faint); opacity: 0.5;
+  margin: 0 -10px;
+}
+.nav .links { display: flex; gap: 32px; align-items: baseline; }
+.nav .links a { color: var(--ink); transition: opacity 0.2s; }
+.nav .links a:hover { opacity: 0.7; }
+.nav .crumb { color: var(--dim); }
+.nav .crumb a { color: var(--ink); border-bottom: 1px solid var(--faint); padding-bottom: 1px; }
+.nav .crumb .sep { margin: 0 10px; opacity: 0.5; }
+
+/* ============================================================
+   GENERIC SECTIONS — used by landing + case studies
+   ============================================================ */
+.section {
+  padding: 100px 48px;
+  border-top: 1px solid var(--rule);
+}
+.section-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 36px;
+}
+.section-head h2 {
+  font-size: 42px; font-weight: 500;
+  letter-spacing: -0.025em; margin: 0;
+}
+.section-head .meta { font-size: 13.5px; color: var(--dim); }
+
+/* ============================================================
+   FOOTER — same on every page
+   ============================================================ */
+.footer {
+  padding: 96px 48px 72px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 24px;
+}
+.footer .email {
+  font-size: 64px; font-weight: 500;
+  letter-spacing: -0.035em; color: var(--ink);
+  border-bottom: 1px solid var(--faint);
+  padding-bottom: 8px; line-height: 1;
+  transition: color 0.25s, border-color 0.25s;
+}
+.footer .email:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.footer .colophon {
+  font-size: 13.5px; color: var(--dim);
+  text-align: right; line-height: 1.6;
+}
+.footer .colophon .faint { color: var(--faint); }
+
+/* ============================================================
+   RESPONSIVE — collapse to single column on narrow screens.
+   ============================================================ */
+@media (max-width: 900px) {
+  .nav { padding: 20px 24px; }
+  .nav .links { gap: 20px; font-size: 13px; }
+  .nav .links a.hide-narrow { display: none; }
+  .section { padding: 64px 24px; }
+  .section-head h2 { font-size: 32px; }
+  .footer { padding: 56px 24px 40px; }
+  .footer .email { font-size: 40px; }
+}
