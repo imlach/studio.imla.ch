@@ -1,0 +1,28 @@
+---
+// Landing work-grid card. Same wipe visual as WipeSlider, but auto-animated on
+// hover (pure CSS, no interaction) — see .sweep-card rules in global.css.
+import type { Film } from "../data/studio";
+interface Props {
+  film: Film;
+  vtName?: string;
+}
+const { film, vtName } = Astro.props;
+const afterStyle = vtName ? `view-transition-name: ${vtName};` : undefined;
+---
+
+<a href={film.href} class="sweep-card">
+  <div class="frame">
+    <img class="before" src={film.hero} alt="" draggable="false" />
+    <img class="after" src={film.hero} alt="" draggable="false" style={afterStyle} />
+    <div class="sweep-line"></div>
+    <div class="badge">Before · After</div>
+  </div>
+  <div class="meta-row">
+    <span class="title">{film.title}</span>
+    <span class="year">{film.year}</span>
+  </div>
+  <div class="sub">
+    <span>{film.studioRole}</span>
+    <span class="meta">{film.studioMeta}</span>
+  </div>
+</a>

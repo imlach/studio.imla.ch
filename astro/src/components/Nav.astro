@@ -1,0 +1,29 @@
+---
+// Fixed nav with the tungsten wordmark-dot. Landing shows the links variant;
+// case studies pass a `crumb` to show the breadcrumb variant instead.
+interface Props {
+  crumb?: string;
+}
+const { crumb } = Astro.props;
+---
+
+<div class="nav">
+  <a href="/" class="wordmark">The Studio</a>
+  {
+    crumb ? (
+      <div class="crumb">
+        <a href="/">All work</a>
+        <span class="sep">/</span>
+        <span style="color: var(--ink)">{crumb}</span>
+      </div>
+    ) : (
+      <nav class="links">
+        <a href="/#work">Work</a>
+        <a href="/#colour">Studio</a>
+        <a href="mailto:studio@imla.ch">Contact</a>
+        <span class="back-sep hide-narrow">/</span>
+        <a href="https://imla.ch/" class="back hide-narrow" title="Back to imla.ch">imla.ch ↗</a>
+      </nav>
+    )
+  }
+</div>
