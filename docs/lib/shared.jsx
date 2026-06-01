@@ -134,31 +134,34 @@ function WipeSlider({ src, alt = "", aspectRatio = "16 / 9", height = null, vtNa
   const [active, setActive] = useState(false);
 
   const update = useCallback((clientX) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
     const p = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     setPct(p * 100);
   }, []);
 
-  const onMove = (e) => { if (active) update(e.clientX); };
-  const onTouchMove = (e) => { if (active && e.touches[0]) update(e.touches[0].clientX); };
-  const onDown = (e) => { setActive(true); update(e.clientX || (e.touches && e.touches[0].clientX)); };
-  const onUp = () => setActive(false);
-
-  // Listen on window so the drag continues even if the cursor leaves the slider.
-  useEffect(() => {
+  // Pointer Events unify mouse/touch/pen. setPointerCapture keeps the drag
+  // alive once it leaves the element (and on fast flicks); preventDefault
+  // kills the browser's native image-drag + text-selection, which is what
+  // makes a naive wipe feel like it "sticks" mid-drag.
+  const onPointerDown = (e) => {
+    e.preventDefault();
+    if (e.pointerId != null) ref.current && ref.current.setPointerCapture(e.pointerId);
+    setActive(true);
+    update(e.clientX);
+  };
+  const onPointerMove = (e) => {
     if (!active) return;
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    window.addEventListener("touchend", onUp);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onUp);
-    };
-  }, [active]);
+    update(e.clientX);
+  };
+  const endDrag = (e) => {
+    const el = ref.current;
+    if (el && e.pointerId != null && el.hasPointerCapture(e.pointerId)) {
+      el.releasePointerCapture(e.pointerId);
+    }
+    setActive(false);
+  };
 
   const boxStyle = {
     position: "relative",
@@ -175,13 +178,16 @@ function WipeSlider({ src, alt = "", aspectRatio = "16 / 9", height = null, vtNa
     <div
       ref={ref}
       style={boxStyle}
-      onMouseDown={onDown}
-      onTouchStart={onDown}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
     >
       {/* Before (full layer) */}
       <img
         src={src}
         alt={alt}
+        draggable={false}
         style={{
           position: "absolute", inset: 0,
           width: "100%", height: "100%", objectFit: "cover",
@@ -193,6 +199,7 @@ function WipeSlider({ src, alt = "", aspectRatio = "16 / 9", height = null, vtNa
       <img
         src={src}
         alt=""
+        draggable={false}
         style={{
           position: "absolute", inset: 0,
           width: "100%", height: "100%", objectFit: "cover",
