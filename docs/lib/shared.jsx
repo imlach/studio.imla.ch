@@ -17,8 +17,9 @@ function Nav({ crumb }) {
         </div>
       ) : (
         <nav className="links">
-          <a href="index.html#work">Work</a>
-          <a href="index.html#studio">Studio</a>
+          <a href="#colour">Colour</a>
+          <a href="#sound">Sound</a>
+          <a href="#tools">Tools</a>
           <a href="mailto:studio@imla.ch">Contact</a>
           <span className="back-sep">/</span>
           <a href="https://imla.ch/" className="back" title="Back to imla.ch">imla.ch ↗</a>
