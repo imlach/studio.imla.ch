@@ -1,0 +1,50 @@
+name: preview
+
+# Builds the Astro studio site on every push to `preview` and publishes the
+# static output to the `preview-pages` branch, which the in-cluster
+# site-preview app (git-sync + nginx) serves at studio-preview.x.imla.ch.
+# Production (main → GitHub Pages) is a separate, later step.
+
+on:
+  push:
+    branches: [preview]
+    paths:
+      - "astro/**"
+      - ".github/workflows/preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: preview-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: astro/package-lock.json
+
+      - name: Build
+        working-directory: astro
+        run: |
+          npm ci
+          npm run build
+
+      - name: Publish dist → preview-pages (orphan)
+        working-directory: astro/dist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git init -q
+          git checkout -q -b preview-pages
+          git add -A
+          git -c user.email=ci@imla.ch -c user.name="studio.imla.ch ci" commit -qm "preview build ${GITHUB_SHA}"
+          git push -fq "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" preview-pages
