@@ -39,8 +39,8 @@ const meta: [string, string][] = [
 
     {/* HERO — full-bleed wipe slider so the grade reveal lands on page load */}
     <section style="position: relative; height: min(720px, 86vh)">
-      <WipeSlider src={film.hero} height="100%" vtName={`film-${film.slug}`} />
-      <div style="position: absolute; left: 48px; bottom: 48px; right: 48px; pointer-events: none">
+      <WipeSlider src={film.hero} height="100%" vtName={`film-${film.slug}`} corners={false} />
+      <div style="position: absolute; left: 48px; bottom: clamp(28px, 6vh, 56px); right: 48px; pointer-events: none">
         <div style="font-size: 13.5px; color: rgba(237,232,221,0.75); margin-bottom: 18px; letter-spacing: 0.04em">
           {film.kind} · Directed by {film.director} · {film.year}
         </div>
