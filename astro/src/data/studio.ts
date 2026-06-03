@@ -36,7 +36,7 @@ export const FILMS: Film[] = [
     kind: "Short film",
     director: "Sarah Grant",
     studioRole: "Colour, DI",
-    studioMeta: "ACES · Rec.709 + HDR",
+    studioMeta: "ACES · Rec.709",
     href: "/skin",
     hero: "/images/skin/3.jpg",
     stills: [
@@ -47,9 +47,9 @@ export const FILMS: Film[] = [
     ],
     // Camera/lens context — borrowed from the DoP page, framed differently
     capture: "Sony Venice · Vespid Primes · Mir-1V 37mm",
-    deliverables: ["DCP master (festivals)", "Rec.709 1080p", "HDR10 1000-nit"],
+    deliverables: ["DCP master (festivals)", "Rec.709 4K"],
     days: "Graded over 4 days",
-    note: "Sarah wanted SKIN to feel skin-warm but never bronzed — honest about light direction, never decorative. The grade leans into warm shadows and cool highlights with very little saturation push. We built a base look in CDL space and rode it from there, frame-by-frame on the close-ups.",
+    note: "Sarah wanted SKIN to feel warm and nostalgic - a stark contrast towards the themes of the film. The grade leans into warm shadows and cool highlights with very little saturation push. We built a base look and rode it from there, frame-by-frame on the close-ups.",
   },
   {
     slug: "feeble",
@@ -74,7 +74,7 @@ export const FILMS: Film[] = [
     kind: "Live set",
     director: "Michael Roddy",
     studioRole: "Edit, Colour",
-    studioMeta: "6 reels · DCP master",
+    studioMeta: "Online Master, Social cuts",
     href: "#",
     hero: "/images/downtown/1.hd.jpg",
     stills: [
@@ -83,17 +83,17 @@ export const FILMS: Film[] = [
       "/images/downtown/6.hd.jpg",
     ],
     capture: "Sony Venice + Ursa Mini · Kowa B&H 2x Anamorphic",
-    deliverables: ["DCP master", "Stereo + 5.1 stems"],
-    days: "Edit + colour over 12 days",
+    deliverables: ["Online master", "Social Cuts"],
+    days: "Edit + colour",
     note: "Two cameras, live performance, no second takes. The grade had to match between Venice and Ursa, anamorphic to spherical, and hold the stage lighting without crushing the band.",
   },
   {
     slug: "sneaker",
     title: "SNEAKER",
-    year: "2024",
+    year: "2026",
     kind: "Short film",
     director: "Christopher Dudley",
-    studioRole: "Colour, DI",
+    studioRole: "Colour, DI, Dub",
     studioMeta: "Anamorphic · 4K finish",
     href: "#",
     hero: "/images/sneaker/1.hd.jpg",
@@ -105,7 +105,7 @@ export const FILMS: Film[] = [
     capture: "Sony Venice · Kowa B&H Anamorphic + Vespid 75/100mm",
     deliverables: ["4K DCP", "Rec.709 1080p"],
     days: "Graded over 5 days",
-    note: "Anamorphic flares are doing most of the work — the grade stays underneath them, lifting only what needs to read. Cool shadow rolloff, warm midtones, a single ungraded reference still pinned to the desktop for every session.",
+    note: "Anamorphic flares are doing most of the work — the grade stays underneath them, lifting only what needs to read. Cool shadow rolloff, warm midtones, online and a bit of corrupted card recovery along the way",
   },
 ];
 
@@ -115,8 +115,7 @@ export const getFilm = (slug: string): Film | undefined =>
 // Sound credits — separate from the per-film case studies because the
 // studio also mixes work it didn't shoot.
 export const SOUND_RECENT = {
-  mix: ["FEEBLE (2025)", "Downtown Lights (2023)", "The Party Line (2022)"],
-  dialogue: ["SKIN (2025)", "By Now (2023)"],
+  mix: ["SNEAKER (2026)",  "The Party Line (2022)"]
 };
 
 export interface Tool {
