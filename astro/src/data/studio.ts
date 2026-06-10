@@ -1,6 +1,21 @@
 // The Studio - content model. Ported verbatim from the prototype's data.jsx.
-// Drives the landing + each case study. Image paths are root-absolute into
-// public/ (the prototype's ../images/... walks rewritten to /images/...).
+// Drives the landing + each case study. Images live in src/assets/images and
+// are emitted as resized WebP at build time; img() maps the prototype's
+// "/images/<p>" paths (and "/sound-room.png") to the optimised URLs.
+import { getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+const sources = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/images/**/*.{jpg,jpeg,png}",
+  { eager: true },
+);
+// Render-time only (component/page frontmatter) - the image service isn't
+// available during module evaluation, so this must not run at top level.
+export const img = async (p: string, width = 1600): Promise<string> => {
+  const mod = sources[`../assets/images${p.replace(/^\/images/, "")}`];
+  if (!mod) throw new Error(`studio.ts: missing image ${p}`);
+  return (await getImage({ src: mod.default, width, format: "webp" })).src;
+};
 
 // Visual filter constants - simulate "log/ungraded" via CSS so we can show
 // before/after without real raw plates. Replace with real log frames in

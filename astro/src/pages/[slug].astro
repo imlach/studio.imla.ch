@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import WipeSlider from "../components/WipeSlider.astro";
-import { FILMS, type Film } from "../data/studio";
+import { FILMS, img, type Film } from "../data/studio";
 
 export function getStaticPaths() {
   // Only films with a real internal case study (href "/<slug>") are routed;
@@ -118,7 +118,7 @@ const meta: [string, string][] = [
       <a href={next.href} style="display: block">
         <div style="position: relative; height: 380px; overflow: hidden">
           <img
-            src={next.hero}
+            src={await img(next.hero)}
             alt=""
             style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.55) saturate(0.85)"
           />
