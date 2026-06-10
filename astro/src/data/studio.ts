@@ -1,8 +1,8 @@
-// The Studio — content model. Ported verbatim from the prototype's data.jsx.
+// The Studio - content model. Ported verbatim from the prototype's data.jsx.
 // Drives the landing + each case study. Image paths are root-absolute into
 // public/ (the prototype's ../images/... walks rewritten to /images/...).
 
-// Visual filter constants — simulate "log/ungraded" via CSS so we can show
+// Visual filter constants - simulate "log/ungraded" via CSS so we can show
 // before/after without real raw plates. Replace with real log frames in
 // production.
 export const BEFORE_FILTER =
@@ -45,7 +45,7 @@ export const FILMS: Film[] = [
       "/images/skin/5.jpg",
       "/images/skin/6.jpg",
     ],
-    // Camera/lens context — borrowed from the DoP page, framed differently
+    // Camera/lens context - borrowed from the DoP page, framed differently
     capture: "Sony Venice · Vespid Primes · Mir-1V 37mm",
     deliverables: ["DCP master (festivals)", "Rec.709 4K"],
     days: "Graded over 4 days",
@@ -65,7 +65,7 @@ export const FILMS: Film[] = [
     capture: "Sony Venice · DZO Vespid + Helios 44-2",
     deliverables: ["YouTube master", "Instagram cuts"],
     days: "Graded over 2 days",
-    note: "Heavy saturation pull on the reds, lifted blacks, and a film-emulation soft-clip on highlights. The look references late-70s rock photography — dense, slightly degraded, never clean.",
+    note: "Heavy saturation pull on the reds, lifted blacks, and a film-emulation soft-clip on highlights. The look references late-70s rock photography - dense, slightly degraded, never clean.",
   },
   {
     slug: "downtown",
@@ -105,14 +105,14 @@ export const FILMS: Film[] = [
     capture: "Sony Venice · Kowa B&H Anamorphic + Vespid 75/100mm",
     deliverables: ["4K DCP", "Rec.709 1080p"],
     days: "Graded over 5 days",
-    note: "Anamorphic flares are doing most of the work — the grade stays underneath them, lifting only what needs to read. Cool shadow rolloff, warm midtones, online and a bit of corrupted card recovery along the way",
+    note: "Anamorphic flares are doing most of the work - the grade stays underneath them, lifting only what needs to read. Cool shadow rolloff, warm midtones, online and a bit of corrupted card recovery along the way",
   },
 ];
 
 export const getFilm = (slug: string): Film | undefined =>
   FILMS.find((f) => f.slug === slug);
 
-// Sound credits — separate from the per-film case studies because the
+// Sound credits - separate from the per-film case studies because the
 // studio also mixes work it didn't shoot.
 export const SOUND_RECENT = {
   mix: ["SNEAKER (2026)",  "The Party Line (2022)"]
@@ -126,13 +126,13 @@ export interface Tool {
   link: string | null;
 }
 
-// Tools — short list for the landing footer block.
+// Tools - short list for the landing footer block.
 export const TOOLS: Tool[] = [
   {
     slug: "dailies-pipeline",
     name: "The dailies pipeline",
     status: "In development",
-    desc: "Raw footage in, a searchable library out. Transcripts, slate metadata, face occurrences, focus timelines, visual tags — across six years of accumulated shoots.",
+    desc: "Raw footage in, a searchable library out. Transcripts, slate metadata, face occurrences, focus timelines, visual tags - across six years of accumulated shoots.",
     link: null,
   },
   {

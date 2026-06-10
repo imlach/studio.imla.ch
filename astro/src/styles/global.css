@@ -1,5 +1,5 @@
 /* ============================================================
-   The Studio — shared chrome. Ported from the prototype's
+   The Studio - shared chrome. Ported from the prototype's
    studio.css. Pure-black sub-brand of imla.ch: shares the
    tungsten accent + wordmark-dot, keeps Newsreader (serif) as a
    deliberate sub-brand signal alongside Schibsted Grotesk body.
@@ -14,7 +14,7 @@
   --rule: #1c1c1e;
   --rule-soft: rgba(237, 232, 221, 0.08);
 
-  /* Tungsten accent — 3200K lamp-glow. Used sparingly: CTA arrows,
+  /* Tungsten accent - 3200K lamp-glow. Used sparingly: CTA arrows,
      link hovers, footer dot. Ties the studio to the imla.ch family. */
   --accent: #c87a3a;
 
@@ -35,13 +35,13 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 html { scroll-behavior: smooth; }
-/* Sections with an id are anchor targets — leave room for the fixed nav. */
+/* Sections with an id are anchor targets - leave room for the fixed nav. */
 .section[id] { scroll-margin-top: 24px; }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
 /* ============================================================
-   TRIPTYCH CARDS — clickable, scrolls to the matching section.
+   TRIPTYCH CARDS - clickable, scrolls to the matching section.
    Subtle reveal on hover signals the affordance.
    ============================================================ */
 .triptych-card {
@@ -74,11 +74,11 @@ img { display: block; max-width: 100%; }
 .triptych-card .jump .arrow { font-size: 13px; }
 
 /* ============================================================
-   SWEEP CARD — the landing-page work-grid card.
+   SWEEP CARD - the landing-page work-grid card.
    Uses the wipe-slider visual vocabulary (line sweeps from
    left, log revealed underneath) but auto-animated on hover
    so visitors don't have to interact. Case-study sliders are
-   the interactive cousin of this — same line, same logic.
+   the interactive cousin of this - same line, same logic.
    ============================================================ */
 .sweep-card {
   display: block; color: inherit; cursor: pointer;
@@ -130,7 +130,7 @@ img { display: block; max-width: 100%; }
 .sweep-card .sub .meta { color: var(--faint); }
 
 /* ============================================================
-   WIPE SLIDER — interactive Resolve-style before/after wipe.
+   WIPE SLIDER - interactive Resolve-style before/after wipe.
    Drag-driven via Pointer Events (see WipeSlider.astro island).
    ============================================================ */
 .wipe {
@@ -179,7 +179,7 @@ img { display: block; max-width: 100%; }
 .wipe .corner.graded { right: 18px; color: var(--ink); }
 
 /* ============================================================
-   NAV — same shape on every page. Sits over the hero.
+   NAV - same shape on every page. Sits over the hero.
    ============================================================ */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
@@ -195,13 +195,13 @@ img { display: block; max-width: 100%; }
   font-weight: 500; letter-spacing: 0.005em; color: var(--ink);
   view-transition-name: studio-wordmark;
 }
-/* Tungsten dot after the wordmark — same accent treatment as imla.ch. */
+/* Tungsten dot after the wordmark - same accent treatment as imla.ch. */
 .nav .wordmark::after {
   content: "·";
   color: var(--accent);
   margin-left: 6px;
 }
-/* Cross-link back to imla.ch — sits to the right of the main nav links. */
+/* Cross-link back to imla.ch - sits to the right of the main nav links. */
 .nav .back {
   font-size: 14px; color: var(--dim);
   transition: color 0.2s;
@@ -219,7 +219,7 @@ img { display: block; max-width: 100%; }
 .nav .crumb .sep { margin: 0 10px; opacity: 0.5; }
 
 /* ============================================================
-   GENERIC SECTIONS — used by landing + case studies
+   GENERIC SECTIONS - used by landing + case studies
    ============================================================ */
 .section {
   padding: 100px 48px;
@@ -236,7 +236,7 @@ img { display: block; max-width: 100%; }
 .section-head .meta { font-size: 13.5px; color: var(--dim); }
 
 /* ============================================================
-   FOOTER — same on every page
+   FOOTER - same on every page
    ============================================================ */
 .footer {
   padding: 96px 48px 72px;
@@ -262,7 +262,7 @@ img { display: block; max-width: 100%; }
 .footer .colophon .faint { color: var(--faint); }
 
 /* ============================================================
-   RESPONSIVE — collapse to single column on narrow screens.
+   RESPONSIVE - collapse to single column on narrow screens.
    ============================================================ */
 @media (max-width: 900px) {
   .nav { padding: 20px 24px; }

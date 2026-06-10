@@ -23,7 +23,7 @@ const featured = TOOLS[0];
   <div style="position: relative">
     <Nav />
 
-    {/* HERO — full bleed reel still + play affordance */}
+    {/* HERO - full bleed reel still + play affordance */}
     <section style="position: relative; height: min(820px, 92vh); overflow: hidden">
       <img
         src="/images/feeble/3.jpg"
@@ -32,7 +32,7 @@ const featured = TOOLS[0];
       />
       <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.05) 70%, rgba(0,0,0,0.85) 100%)"></div>
 
-      {/* Showreel button — hidden until the reel exists.
+      {/* Showreel button - hidden until the reel exists.
       <button
         style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 16px; background: transparent; border: none; color: var(--ink); font-family: var(--font); font-size: 14.5px; letter-spacing: 0.04em; cursor: pointer"
       >
@@ -50,7 +50,7 @@ const featured = TOOLS[0];
       </div>
     </section>
 
-    {/* TRIPTYCH — three doors, each links to its section */}
+    {/* TRIPTYCH - three doors, each links to its section */}
     <section class="section" id="work">
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px">
         <a href="#colour" class="triptych-card">
@@ -64,7 +64,7 @@ const featured = TOOLS[0];
               Davinci Resolve. From online content to full feature delivery.
             </div>
             <div style="font-size: 12px; color: var(--faint); margin-top: 14px">
-              Recent — SKIN · FEEBLE · Downtown Lights
+              Recent - SKIN · FEEBLE · Downtown Lights
             </div>
           </div>
         </a>
@@ -103,11 +103,11 @@ const featured = TOOLS[0];
       </div>
     </section>
 
-    {/* COLOUR deep-dive — the work grid lives inside */}
+    {/* COLOUR deep-dive - the work grid lives inside */}
     <section class="section" id="colour">
       <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px">
         <div>
-          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">01 — the suite</div>
+          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">01 - the suite</div>
           <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Colour.</h2>
         </div>
         <div style="padding-top: 14px">
@@ -120,7 +120,7 @@ const featured = TOOLS[0];
         </div>
       </div>
 
-      {/* Selected work — the visible body of the colour section */}
+      {/* Selected work - the visible body of the colour section */}
       <div style="border-top: 1px solid var(--rule); padding-top: 40px; margin-bottom: 56px">
         <div class="section-head" style="margin-bottom: 32px">
           <h3 style="font-size: 22px; font-weight: 500; letter-spacing: -0.005em; margin: 0; color: var(--dim)">Selected work.</h3>
@@ -145,7 +145,7 @@ const featured = TOOLS[0];
       </div>
 
       <div style="padding: 36px 0 0">
-        <div style="font-size: 14px; color: var(--dim); margin-bottom: 14px">Recent — colour</div>
+        <div style="font-size: 14px; color: var(--dim); margin-bottom: 14px">Recent - colour</div>
         <div style="font-size: 17px; line-height: 1.7">{colourRecent}</div>
       </div>
     </section>
@@ -154,7 +154,7 @@ const featured = TOOLS[0];
     <section class="section" id="sound">
       <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px">
         <div>
-          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">02 — the sound room</div>
+          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">02 - the sound room</div>
           <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Sound.</h2>
         </div>
         <div style="padding-top: 14px">
@@ -171,7 +171,7 @@ const featured = TOOLS[0];
       <div style="position: relative; overflow: hidden; height: 480px">
         <img
           src="/assets/sound-room.png"
-          alt="The mix room — Adam Audio + Genelec 7.1.4 Atmos in Dunkeld"
+          alt="The mix room - Adam Audio + Genelec 7.1.4 Atmos in Dunkeld"
           style="width: 100%; height: 100%; object-fit: cover"
         />
       </div>
@@ -187,9 +187,9 @@ const featured = TOOLS[0];
           ))
         }
         <div style="border-top: 1px solid var(--rule); padding: 36px 0 0">
-          <div style="font-size: 14px; color: var(--dim); margin-bottom: 14px">Recent — sound</div>
+          <div style="font-size: 14px; color: var(--dim); margin-bottom: 14px">Recent - sound</div>
           <div style="font-size: 17px; line-height: 1.7">
-            <em style="color: var(--dim); font-style: normal">Mix —</em> {SOUND_RECENT.mix.join(" · ")}
+            <em style="color: var(--dim); font-style: normal">Mix -</em> {SOUND_RECENT.mix.join(" · ")}
           </div>
         </div>
       </div>
@@ -199,7 +199,7 @@ const featured = TOOLS[0];
     <section class="section" id="tools">
       <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px">
         <div>
-          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">03 — the bench</div>
+          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">03 - the bench</div>
           <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Tools.</h2>
         </div>
         <div style="padding-top: 14px">
@@ -228,7 +228,7 @@ const featured = TOOLS[0];
       <div style="padding: 48px 0 0; display: grid; grid-template-columns: 240px 1fr; gap: 64px">
         <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Why</div>
         <p style="font-size: 17.5px; line-height: 1.65; margin: 0; max-width: 62ch">
-          Most colour and edit suites don't talk to your shoot the way they should. The work that gets lost in the dailies process is the same work that gets re-done in the grade — finding the take, finding the line, finding the look. <span style="color: var(--dim)">So we built something that doesn't lose it.</span>
+          Most colour and edit suites don't talk to your shoot the way they should. The work that gets lost in the dailies process is the same work that gets re-done in the grade - finding the take, finding the line, finding the look. <span style="color: var(--dim)">So we built something that doesn't lose it.</span>
         </p>
       </div>
 
