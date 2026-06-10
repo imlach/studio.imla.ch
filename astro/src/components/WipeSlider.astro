@@ -1,0 +1,75 @@
+---
+// The studio's signature interaction — a Resolve-style draggable before/after
+// wipe, clip-path driven. Before/after are CSS-filter fakes of log-vs-graded
+// (BEFORE_FILTER/AFTER_FILTER live in global.css's .wipe rules). Native Astro
+// component + a small client-side island below — NOT a React mount.
+interface Props {
+  src: string;
+  alt?: string;
+  /** CSS aspect-ratio (e.g. "16 / 9"). Ignored if `height` is set. */
+  aspectRatio?: string;
+  /** Explicit height (e.g. "100%") for full-bleed hero use. */
+  height?: string;
+  /** Optional view-transition-name for landing↔case-study morphs. */
+  vtName?: string;
+  /** "Log / Graded" corner chips. Off for hero use where the title carries the page. */
+  corners?: boolean;
+}
+const { src, alt = "", aspectRatio = "16 / 9", height, vtName, corners = true } = Astro.props;
+
+const boxStyle = height
+  ? `height: ${height};`
+  : `aspect-ratio: ${aspectRatio};`;
+const afterStyle = vtName ? `view-transition-name: ${vtName};` : undefined;
+---
+
+<div class="wipe" style={boxStyle}>
+  <img class="layer before" src={src} alt={alt} draggable="false" />
+  <img class="layer after" src={src} alt="" draggable="false" style={afterStyle} />
+  <div class="line"><div class="handle">‹›</div></div>
+  {corners && <span class="corner log">Log</span>}
+  {corners && <span class="corner graded">Graded</span>}
+</div>
+
+<script>
+  // Drag with Pointer Events + setPointerCapture — the hard-won robustness fix.
+  // preventDefault on pointerdown + draggable="false" on the imgs stops the
+  // browser's native image-drag from hijacking the gesture (the naive
+  // mouse/touch-listener approach feels broken). One delegated init covers
+  // every .wipe on the page (hero + comparison frames).
+  function initWipe(el: HTMLElement) {
+    if (el.dataset.wipeInit) return;
+    el.dataset.wipeInit = "1";
+
+    const set = (clientX: number) => {
+      const rect = el.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      el.style.setProperty("--pct", `${p * 100}%`);
+    };
+
+    el.addEventListener("pointerdown", (e: PointerEvent) => {
+      e.preventDefault();
+      el.classList.add("dragging");
+      el.setPointerCapture(e.pointerId);
+      set(e.clientX);
+    });
+    el.addEventListener("pointermove", (e: PointerEvent) => {
+      if (!el.hasPointerCapture(e.pointerId)) return;
+      set(e.clientX);
+    });
+    const release = (e: PointerEvent) => {
+      if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+      el.classList.remove("dragging");
+    };
+    el.addEventListener("pointerup", release);
+    el.addEventListener("pointercancel", release);
+  }
+
+  function initAll() {
+    document.querySelectorAll<HTMLElement>(".wipe").forEach(initWipe);
+  }
+
+  initAll();
+  // Re-init after View Transitions swap the DOM.
+  document.addEventListener("astro:page-load", initAll);
+</script>
