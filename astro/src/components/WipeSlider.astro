@@ -1,8 +1,8 @@
 ---
-// The studio's signature interaction — a Resolve-style draggable before/after
+// The studio's signature interaction - a Resolve-style draggable before/after
 // wipe, clip-path driven. Before/after are CSS-filter fakes of log-vs-graded
 // (BEFORE_FILTER/AFTER_FILTER live in global.css's .wipe rules). Native Astro
-// component + a small client-side island below — NOT a React mount.
+// component + a small client-side island below - NOT a React mount.
 interface Props {
   src: string;
   alt?: string;
@@ -32,7 +32,7 @@ const afterStyle = vtName ? `view-transition-name: ${vtName};` : undefined;
 </div>
 
 <script>
-  // Drag with Pointer Events + setPointerCapture — the hard-won robustness fix.
+  // Drag with Pointer Events + setPointerCapture - the hard-won robustness fix.
   // preventDefault on pointerdown + draggable="false" on the imgs stops the
   // browser's native image-drag from hijacking the gesture (the naive
   // mouse/touch-listener approach feels broken). One delegated init covers

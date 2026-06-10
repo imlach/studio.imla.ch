@@ -31,13 +31,13 @@ const meta: [string, string][] = [
 ---
 
 <Base
-  title={`${film.title} — Case study · The Studio`}
+  title={`${film.title} - Case study · The Studio`}
   description={`${film.studioRole} on ${film.title}, a ${film.kind.toLowerCase()} directed by ${film.director}. By The Studio.`}
 >
   <div style="position: relative">
     <Nav crumb={film.title} />
 
-    {/* HERO — full-bleed wipe slider so the grade reveal lands on page load */}
+    {/* HERO - full-bleed wipe slider so the grade reveal lands on page load */}
     <section style="position: relative; height: min(720px, 86vh)">
       <WipeSlider src={film.hero} height="100%" vtName={`film-${film.slug}`} corners={false} />
       <div style="position: absolute; left: 48px; bottom: clamp(28px, 6vh, 56px); right: 48px; pointer-events: none">
@@ -50,7 +50,7 @@ const meta: [string, string][] = [
       </div>
     </section>
 
-    {/* META BAR — what the studio did, at a glance */}
+    {/* META BAR - what the studio did, at a glance */}
     <section class="section" style="padding: 56px 48px">
       <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding-top: 4px">
         {
@@ -64,7 +64,7 @@ const meta: [string, string][] = [
       </div>
     </section>
 
-    {/* NOTE — colourist's note */}
+    {/* NOTE - colourist's note */}
     <section class="section">
       <div style="display: grid; grid-template-columns: 240px 1fr; gap: 64px">
         <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Note</div>
@@ -74,7 +74,7 @@ const meta: [string, string][] = [
       </div>
     </section>
 
-    {/* COMPARISON FRAMES — additional stills, each a wipe slider */}
+    {/* COMPARISON FRAMES - additional stills, each a wipe slider */}
     <section class="section">
       <div class="section-head">
         <h2>Frames.</h2>
@@ -95,7 +95,7 @@ const meta: [string, string][] = [
       </div>
     </section>
 
-    {/* DELIVERABLES — quiet list */}
+    {/* DELIVERABLES - quiet list */}
     <section class="section">
       <div style="display: grid; grid-template-columns: 240px 1fr; gap: 64px">
         <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Deliverables</div>
@@ -113,7 +113,7 @@ const meta: [string, string][] = [
       </div>
     </section>
 
-    {/* NEXT CASE STUDY — cinematic teaser */}
+    {/* NEXT CASE STUDY - cinematic teaser */}
     <section style="border-top: 1px solid var(--rule)">
       <a href={next.href} style="display: block">
         <div style="position: relative; height: 380px; overflow: hidden">
@@ -124,7 +124,7 @@ const meta: [string, string][] = [
           />
           <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)"></div>
           <div style="position: absolute; left: 48px; bottom: 36px; right: 48px">
-            <div style="font-size: 13.5px; color: rgba(237,232,221,0.7); margin-bottom: 14px; letter-spacing: 0.04em">Next case study —</div>
+            <div style="font-size: 13.5px; color: rgba(237,232,221,0.7); margin-bottom: 14px; letter-spacing: 0.04em">Next case study -</div>
             <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap">
               <span style="font-size: clamp(40px, 6vw, 76px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.0; color: var(--ink); font-family: var(--font-display)">{next.title}.</span>
               <span style="font-size: 14px; color: var(--ink); border-bottom: 1px solid var(--faint); padding-bottom: 2px">Open →</span>
