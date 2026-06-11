@@ -26,6 +26,7 @@ const featured = TOOLS[0];
     {/* HERO - full bleed reel still + play affordance */}
     <section style="position: relative; height: min(820px, 92vh); overflow: hidden">
       <img
+        class="hero-img"
         src={await img("/images/feeble/3.jpg")}
         alt=""
         style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; filter: brightness(0.68) saturate(0.92)"
@@ -43,10 +44,10 @@ const featured = TOOLS[0];
 
       {/* Bottom-anchored title */}
       <div class="hero-caption" style="bottom: 60px">
-        <div style="font-size: 14px; color: rgba(237,232,221,0.7); margin-bottom: 22px; letter-spacing: 0.04em">
+        <div class="hero-kicker" style="font-size: 14px; color: rgba(237,232,221,0.7); margin-bottom: 22px; letter-spacing: 0.04em">
           A post-production studio for filmmakers. Scotland.
         </div>
-        <h1 style="font-size: clamp(64px, 11vw, 144px); font-weight: 600; letter-spacing: -0.045em; line-height: 0.88; margin: 0; color: var(--ink); font-family: var(--font-display)">The Studio.</h1>
+        <h1 class="hero-title" style="font-size: clamp(64px, 11vw, 144px); font-weight: 600; letter-spacing: -0.045em; line-height: 0.88; margin: 0; color: var(--ink); font-family: var(--font-display)">The Studio.</h1>
       </div>
     </section>
 
@@ -107,7 +108,7 @@ const featured = TOOLS[0];
     <section class="section" id="colour">
       <div class="split-head">
         <div>
-          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">01 - the suite</div>
+          <div style="font-size: 13.5px; color: var(--accent); margin-bottom: 18px; letter-spacing: 0.04em">01 - the suite</div>
           <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Colour.</h2>
         </div>
         <div style="padding-top: 14px">
@@ -136,7 +137,7 @@ const featured = TOOLS[0];
         {
           colourServices.map((s, i) => (
             <div class="service-row" style="padding: 26px 0; border-bottom: 1px solid var(--rule)">
-              <span style="font-size: 28px; font-weight: 500; letter-spacing: -0.02em">{s.t}</span>
+              <span style="font-size: clamp(22px, 3vw, 28px); font-weight: 500; letter-spacing: -0.02em">{s.t}</span>
               <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{s.d}</span>
               <span class="num" style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
             </div>
@@ -159,7 +160,7 @@ const featured = TOOLS[0];
     <section class="section" id="sound">
       <div class="split-head">
         <div>
-          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">02 - the sound room</div>
+          <div style="font-size: 13.5px; color: var(--accent); margin-bottom: 18px; letter-spacing: 0.04em">02 - the sound room</div>
           <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Sound.</h2>
         </div>
         <div style="padding-top: 14px">
@@ -185,7 +186,7 @@ const featured = TOOLS[0];
         {
           soundServices.map((s, i) => (
             <div class="service-row" style="padding: 26px 0; border-top: 1px solid var(--rule)">
-              <span style="font-size: 28px; font-weight: 500; letter-spacing: -0.02em">{s.t}</span>
+              <span style="font-size: clamp(22px, 3vw, 28px); font-weight: 500; letter-spacing: -0.02em">{s.t}</span>
               <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{s.d}</span>
               <span class="num" style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
             </div>
@@ -204,7 +205,7 @@ const featured = TOOLS[0];
     <section class="section" id="tools">
       <div class="split-head">
         <div>
-          <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">03 - the bench</div>
+          <div style="font-size: 13.5px; color: var(--accent); margin-bottom: 18px; letter-spacing: 0.04em">03 - the bench</div>
           <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Tools.</h2>
         </div>
         <div style="padding-top: 14px">
@@ -242,7 +243,7 @@ const featured = TOOLS[0];
         {
           TOOLS.slice(1).map((t) => (
             <div class="service-row" style="padding: 20px 0; border-bottom: 1px solid var(--rule)">
-              <span style="font-size: 26px; font-weight: 500; letter-spacing: -0.015em">{t.name}</span>
+              <span style="font-size: clamp(21px, 2.8vw, 26px); font-weight: 500; letter-spacing: -0.015em">{t.name}</span>
               <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{t.desc}</span>
               {t.link && (
                 <a href={t.link} style="font-size: 13px; color: var(--ink); border-bottom: 1px solid var(--faint); padding-bottom: 2px; text-align: right" target="_blank" rel="noopener">
@@ -258,3 +259,28 @@ const featured = TOOLS[0];
     <Footer />
   </div>
 </Base>
+
+<style>
+  /* One orchestrated entrance: the still settles from a slight
+     push-in while the kicker, then the title, rise into place.
+     Everything after the hero is left to the wipes. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-img {
+      animation: hero-settle 2.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+    }
+    .hero-kicker {
+      animation: hero-rise 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.25s both;
+    }
+    .hero-title {
+      animation: hero-rise 1.1s cubic-bezier(0.2, 0.7, 0.3, 1) 0.4s both;
+    }
+    @keyframes hero-settle {
+      from { opacity: 0.4; transform: scale(1.05); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes hero-rise {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+</style>
