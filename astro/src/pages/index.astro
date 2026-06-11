@@ -42,7 +42,7 @@ const featured = TOOLS[0];
       */}
 
       {/* Bottom-anchored title */}
-      <div style="position: absolute; left: 48px; right: 48px; bottom: 60px">
+      <div class="hero-caption" style="bottom: 60px">
         <div style="font-size: 14px; color: rgba(237,232,221,0.7); margin-bottom: 22px; letter-spacing: 0.04em">
           A post-production studio for filmmakers. Scotland.
         </div>
@@ -52,10 +52,10 @@ const featured = TOOLS[0];
 
     {/* TRIPTYCH - three doors, each links to its section */}
     <section class="section" id="work">
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px">
+      <div class="triptych-grid">
         <a href="#colour" class="triptych-card">
           <div class="media">
-            <img src={await img("/images/feeble/3.jpg")} alt="" />
+            <img src={await img("/images/feeble/5.jpg")} alt="" />
             <span class="jump"><span>To the suite</span><span class="arrow">↓</span></span>
           </div>
           <div style="padding-top: 20px">
@@ -105,7 +105,7 @@ const featured = TOOLS[0];
 
     {/* COLOUR deep-dive - the work grid lives inside */}
     <section class="section" id="colour">
-      <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px">
+      <div class="split-head">
         <div>
           <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">01 - the suite</div>
           <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Colour.</h2>
@@ -126,7 +126,7 @@ const featured = TOOLS[0];
           <h3 style="font-size: 22px; font-weight: 500; letter-spacing: -0.005em; margin: 0; color: var(--dim)">Selected work.</h3>
           <span class="meta">Hover to preview the grade reveal. Open for the full case study.</span>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px">
+        <div class="work-grid">
           {FILMS.map((f) => <SweepCard film={f} vtName={`film-${f.slug}`} />)}
         </div>
       </div>
@@ -135,10 +135,10 @@ const featured = TOOLS[0];
       <div style="border-top: 1px solid var(--rule)">
         {
           colourServices.map((s, i) => (
-            <div style="display: grid; grid-template-columns: 320px 1fr 120px; gap: 32px; padding: 26px 0; border-bottom: 1px solid var(--rule); align-items: baseline">
+            <div class="service-row" style="padding: 26px 0; border-bottom: 1px solid var(--rule)">
               <span style="font-size: 28px; font-weight: 500; letter-spacing: -0.02em">{s.t}</span>
               <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{s.d}</span>
-              <span style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
+              <span class="num" style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
             </div>
           ))
         }
@@ -148,11 +148,16 @@ const featured = TOOLS[0];
         <div style="font-size: 14px; color: var(--dim); margin-bottom: 14px">Recent - colour</div>
         <div style="font-size: 17px; line-height: 1.7">{colourRecent}</div>
       </div>
+
+      {/* Quiet CTA at the point of highest intent */}
+      <div style="padding: 40px 0 0">
+        <a href="mailto:studio@imla.ch" style="font-size: 16px; color: var(--ink); border-bottom: 1px solid var(--faint); padding-bottom: 2px">Booking grades - studio@imla.ch</a>
+      </div>
     </section>
 
     {/* SOUND deep-dive */}
     <section class="section" id="sound">
-      <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px">
+      <div class="split-head">
         <div>
           <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">02 - the sound room</div>
           <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Sound.</h2>
@@ -179,10 +184,10 @@ const featured = TOOLS[0];
       <div style="padding: 44px 0 0">
         {
           soundServices.map((s, i) => (
-            <div style="display: grid; grid-template-columns: 320px 1fr 120px; gap: 32px; padding: 26px 0; border-top: 1px solid var(--rule); align-items: baseline">
+            <div class="service-row" style="padding: 26px 0; border-top: 1px solid var(--rule)">
               <span style="font-size: 28px; font-weight: 500; letter-spacing: -0.02em">{s.t}</span>
               <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{s.d}</span>
-              <span style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
+              <span class="num" style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
             </div>
           ))
         }
@@ -197,7 +202,7 @@ const featured = TOOLS[0];
 
     {/* TOOLS deep-dive */}
     <section class="section" id="tools">
-      <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px">
+      <div class="split-head">
         <div>
           <div style="font-size: 13.5px; color: var(--dim); margin-bottom: 18px; letter-spacing: 0.04em">03 - the bench</div>
           <h2 style="font-size: clamp(56px, 7vw, 92px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Tools.</h2>
@@ -225,7 +230,7 @@ const featured = TOOLS[0];
         </div>
       </div>
 
-      <div style="padding: 48px 0 0; display: grid; grid-template-columns: 240px 1fr; gap: 64px">
+      <div class="label-row" style="padding: 48px 0 0">
         <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Why</div>
         <p style="font-size: 17.5px; line-height: 1.65; margin: 0; max-width: 62ch">
           Most colour and edit suites don't talk to your shoot the way they should. The work that gets lost in the dailies process is the same work that gets re-done in the grade - finding the take, finding the line, finding the look. <span style="color: var(--dim)">So we built something that doesn't lose it.</span>
@@ -236,7 +241,7 @@ const featured = TOOLS[0];
         <div style="font-size: 14px; color: var(--dim); margin-bottom: 18px; border-top: 1px solid var(--rule); padding-top: 28px">Released</div>
         {
           TOOLS.slice(1).map((t) => (
-            <div style="display: grid; grid-template-columns: 320px 1fr 140px; gap: 32px; padding: 20px 0; border-bottom: 1px solid var(--rule); align-items: baseline">
+            <div class="service-row" style="padding: 20px 0; border-bottom: 1px solid var(--rule)">
               <span style="font-size: 26px; font-weight: 500; letter-spacing: -0.015em">{t.name}</span>
               <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{t.desc}</span>
               {t.link && (

@@ -6,8 +6,6 @@ import WipeSlider from "../components/WipeSlider.astro";
 import { FILMS, img, type Film } from "../data/studio";
 
 export function getStaticPaths() {
-  // Only films with a real internal case study (href "/<slug>") are routed;
-  // the rest stay href "#" on the landing until their case study is written.
   return FILMS.filter((f) => f.href.startsWith("/")).map((film) => ({
     params: { slug: film.slug },
     props: { film },
@@ -40,7 +38,7 @@ const meta: [string, string][] = [
     {/* HERO - full-bleed wipe slider so the grade reveal lands on page load */}
     <section style="position: relative; height: min(720px, 86vh)">
       <WipeSlider src={film.hero} height="100%" vtName={`film-${film.slug}`} corners={false} />
-      <div style="position: absolute; left: 48px; bottom: clamp(28px, 6vh, 56px); right: 48px; pointer-events: none">
+      <div class="hero-caption" style="bottom: clamp(28px, 6vh, 56px); pointer-events: none">
         <div style="font-size: 13.5px; color: rgba(237,232,221,0.75); margin-bottom: 18px; letter-spacing: 0.04em">
           {film.kind} · Directed by {film.director} · {film.year}
         </div>
@@ -52,7 +50,7 @@ const meta: [string, string][] = [
 
     {/* META BAR - what the studio did, at a glance */}
     <section class="section" style="padding: 56px 48px">
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding-top: 4px">
+      <div class="meta-grid" style="padding-top: 4px">
         {
           meta.map(([k, v]) => (
             <div>
@@ -66,7 +64,7 @@ const meta: [string, string][] = [
 
     {/* NOTE - colourist's note */}
     <section class="section">
-      <div style="display: grid; grid-template-columns: 240px 1fr; gap: 64px">
+      <div class="label-row">
         <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Note</div>
         <p style="font-size: 21px; line-height: 1.6; margin: 0; max-width: 60ch; color: var(--ink)">
           {film.note}
@@ -80,7 +78,7 @@ const meta: [string, string][] = [
         <h2>Frames.</h2>
         <span class="meta">Drag the line on any frame.</span>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px">
+      <div class="frames-grid">
         {
           film.stills.map((src, i) => (
             <div>
@@ -97,7 +95,7 @@ const meta: [string, string][] = [
 
     {/* DELIVERABLES - quiet list */}
     <section class="section">
-      <div style="display: grid; grid-template-columns: 240px 1fr; gap: 64px">
+      <div class="label-row">
         <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Deliverables</div>
         <ul style="margin: 0; padding: 0; list-style: none">
           {
@@ -123,7 +121,7 @@ const meta: [string, string][] = [
             style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.55) saturate(0.85)"
           />
           <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)"></div>
-          <div style="position: absolute; left: 48px; bottom: 36px; right: 48px">
+          <div class="hero-caption" style="bottom: 36px">
             <div style="font-size: 13.5px; color: rgba(237,232,221,0.7); margin-bottom: 14px; letter-spacing: 0.04em">Next case study -</div>
             <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap">
               <span style="font-size: clamp(40px, 6vw, 76px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.0; color: var(--ink); font-family: var(--font-display)">{next.title}.</span>

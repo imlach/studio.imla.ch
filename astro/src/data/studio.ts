@@ -32,7 +32,7 @@ export interface Film {
   director: string;
   studioRole: string;
   studioMeta: string;
-  /** Internal case-study route, or "#" when no real case study exists yet. */
+  /** Internal case-study route. */
   href: string;
   hero: string;
   stills: string[];
@@ -74,7 +74,7 @@ export const FILMS: Film[] = [
     director: "Michael Kearney",
     studioRole: "Colour, Online",
     studioMeta: "Custom LUT · 2 days",
-    href: "#",
+    href: "/feeble",
     hero: "/images/feeble/1.jpg",
     stills: ["/images/feeble/2.jpg", "/images/feeble/4.jpg", "/images/feeble/5.jpg"],
     capture: "Sony Venice · DZO Vespid + Helios 44-2",
@@ -90,7 +90,7 @@ export const FILMS: Film[] = [
     director: "Michael Roddy",
     studioRole: "Edit, Colour",
     studioMeta: "Online Master, Social cuts",
-    href: "#",
+    href: "/downtown",
     hero: "/images/downtown/1.hd.jpg",
     stills: [
       "/images/downtown/3.hd.jpg",
@@ -110,7 +110,7 @@ export const FILMS: Film[] = [
     director: "Christopher Dudley",
     studioRole: "Colour, DI, Dub",
     studioMeta: "Anamorphic · 4K finish",
-    href: "#",
+    href: "/sneaker",
     hero: "/images/sneaker/1.hd.jpg",
     stills: [
       "/images/sneaker/3.hd.jpg",
