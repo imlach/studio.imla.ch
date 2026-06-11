@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
+import { getImage } from "astro:assets";
+import ogStill from "../assets/images/feeble/3.jpg";
 
 interface Props {
   title: string;
@@ -11,6 +13,11 @@ const {
   title,
   description = "A post-production studio in Scotland. Colour, sound, and the tools we build for the work.",
 } = Astro.props;
+
+// Social preview - a graded still. JPEG, not WebP: some scrapers
+// (LinkedIn among them) still won't render WebP og:images.
+const og = await getImage({ src: ogStill, width: 1200, format: "jpeg" });
+const ogImageUrl = new URL(og.src, Astro.site);
 ---
 
 <!doctype html>
@@ -26,6 +33,9 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

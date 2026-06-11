@@ -260,6 +260,28 @@ img { display: block; max-width: 100%; }
   text-align: right; line-height: 1.6;
 }
 .footer .colophon .faint { color: var(--faint); }
+.footer .colophon a.faint:hover { color: var(--ink); }
+
+/* ============================================================
+   GRID PRIMITIVES - the landing + case-study layout grids.
+   Classes (not inline styles) so the responsive collapse below
+   can reach them.
+   ============================================================ */
+/* Three doors on the landing. */
+.triptych-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+/* Big section heading on the left, standfirst on the right. */
+.split-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-bottom: 56px; }
+/* Two-up grids: work cards and case-study comparison frames. */
+.work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.frames-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+/* Service / released-tool rows: name · description · index or link. */
+.service-row { display: grid; grid-template-columns: 320px 1fr 140px; gap: 32px; align-items: baseline; }
+/* Small label on the left, body on the right (Note, Why, Deliverables). */
+.label-row { display: grid; grid-template-columns: 240px 1fr; gap: 64px; }
+/* Case-study at-a-glance bar. */
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+/* Text block anchored over a full-bleed hero / banner. */
+.hero-caption { position: absolute; left: 48px; right: 48px; }
 
 /* ============================================================
    RESPONSIVE - collapse to single column on narrow screens.
@@ -270,6 +292,16 @@ img { display: block; max-width: 100%; }
   .nav .links a.hide-narrow { display: none; }
   .section { padding: 64px 24px; }
   .section-head h2 { font-size: 32px; }
+  .section-head { flex-direction: column; align-items: flex-start; gap: 10px; }
   .footer { padding: 56px 24px 40px; }
   .footer .email { font-size: 40px; }
+  .triptych-grid { grid-template-columns: 1fr; gap: 40px; }
+  .split-head { grid-template-columns: 1fr; gap: 20px; margin-bottom: 40px; }
+  .work-grid,
+  .frames-grid { grid-template-columns: 1fr; }
+  .service-row { grid-template-columns: 1fr; gap: 8px; }
+  .service-row .num { display: none; }
+  .label-row { grid-template-columns: 1fr; gap: 14px; }
+  .meta-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-caption { left: 24px; right: 24px; }
 }
