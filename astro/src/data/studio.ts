@@ -202,7 +202,7 @@ export const TOOLS: Tool[] = [
     slug: "dailies-pipeline",
     name: "The dailies pipeline",
     status: "In development",
-    desc: "Raw footage in, a searchable library out. Transcripts, slate metadata, face occurrences, focus timelines, visual tags - across six years of accumulated shoots.",
+    desc: "Camera originals in; proxies, sync, transcripts and search out. Slate OCR, focus notes and visual tags are next.",
     link: null,
     href: "/tools/dailies-pipeline",
   },
