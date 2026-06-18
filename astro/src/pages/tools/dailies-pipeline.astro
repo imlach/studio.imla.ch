@@ -12,26 +12,26 @@ import { img } from "../../data/studio";
 const meta: [string, string][] = [
   ["Status", "v0.1 · in development"],
   ["What", "Media intelligence pipeline"],
-  ["Stack", "FastAPI · Prefect · Postgres + pgvector"],
+  ["Stack", "FastAPI · Prefect · Postgres"],
   ["License", "AGPL-3.0-or-later"],
 ];
 
-// The pipeline, stage by stage. The first five (plus opt-in faces) run today;
-// the last row is scaffolded in the schema but not yet driven by a flow.
+// The pipeline, stage by stage. The first five are the v0.1 vertical slice
+// (the default chain); faces is flow-driven but opt-in per job. Slate, visual
+// tags, focus and reconcile come after - see the note under the list.
 const stages: { t: string; d: string }[] = [
   { t: "Ingest", d: "Scan the camera cards and recorder files into a shoot. One source file per clip, dimensions and codec filled in." },
   { t: "Probe", d: "ffprobe every clip for resolution, codec, framerate and embedded timecode - cheap, local, in-process." },
-  { t: "Proxy", d: "FFmpeg renders viewing proxies off the camera originals - cheap, license-free, the default for the codecs it can read. Proprietary RAW it can't decode (X-OCN, ARRIRAW, BRAW, R3D) falls through to an optional DaVinci Resolve seat." },
-  { t: "Sync", d: "Match standalone audio-recorder files to picture by timecode, with the offset of each clip's first frame inside the take." },
+  { t: "Proxy", d: "Viewing proxies off the camera originals, routed per clip across render backends: a license-free FFmpeg path for the common codecs, an optional DaVinci Resolve seat for the proprietary RAW it can't decode (X-OCN, ARRIRAW, BRAW, R3D). A clip no backend can handle is flagged, not fatal." },
+  { t: "Sync", d: "Extract the clip's audio, then match standalone recorder files to picture by timecode - down to the offset of each clip's first frame inside the take." },
   { t: "Transcribe", d: "WhisperX turns dialogue into timed, searchable transcripts - find the line, not just the clip." },
-  { t: "Slate", d: "Read scene / shot / take off the clapperboard, and pull scene metadata from the shoot's screenplay." },
-  { t: "Faces", d: "Track who appears in each clip and when, against a per-shoot person registry. Opt-in per job." },
+  { t: "Faces", d: "Track who appears in each clip and when, against a per-shoot person registry. Flow-driven today, requested per job rather than run by default." },
 ];
 
 // Why HTTP-from-day-one matters, in studio language rather than protocol terms.
 const principles: { t: string; d: string }[] = [
   { t: "API-first, no Mac dependency", d: "Driveable from a web UI, a curl-able REST API, or an automated trigger. No workstation is load-bearing." },
-  { t: "Connectors are the boundary", d: "Swapping the FFmpeg renderer for a Resolve seat on RAW, or self-hosted WhisperX for a managed transcriber, is a config edit - never a rewrite." },
+  { t: "Connectors are the boundary", d: "Self-hosted WhisperX or a managed transcriber; an FFmpeg path or a Resolve seat for proxies - which backend handles a clip is a config edit and a capability check, never a rewrite." },
   { t: "Deploy is a config file", d: "The same image runs in docker-compose on a laptop and on the cluster in production. Different config, not different code." },
 ];
 ---
@@ -105,7 +105,7 @@ const principles: { t: string; d: string }[] = [
             A shoot moves through a chain of stages. Each one is idempotent - re-running a job only does the work that's missing.
           </p>
           <p style="font-size: 16px; line-height: 1.65; color: var(--dim); margin: 20px 0 0; max-width: 56ch">
-            The vertical slice - ingest through transcribe, plus opt-in faces - runs today on no GPU and no footage in local dev, and on real render seats in production.
+            The vertical slice - ingest, probe, proxy, sync, transcribe - runs end to end today, with faces available per job. Stand-in backends let it run with no GPU and no footage in local dev and CI; pointing config at the real render and transcription services is the only change for production.
           </p>
         </div>
       </div>
@@ -124,7 +124,7 @@ const principles: { t: string; d: string }[] = [
 
       <div style="padding: 28px 0 0">
         <p style="font-size: 15px; line-height: 1.7; color: var(--faint); margin: 0; max-width: 70ch">
-          Visual tags, focus timelines and a reconcile pass against the script-supervisor and camera reports are scaffolded in the schema and on the roadmap - not yet driven by a flow.
+          Slate OCR, visual tags, focus timelines and a reconcile pass against the script-supervisor and camera reports are scaffolded in the schema - the next stages to come online. The shoot's screenplay is already parsed into scene metadata for them to correlate against.
         </p>
       </div>
     </section>
@@ -156,7 +156,7 @@ const principles: { t: string; d: string }[] = [
             An orchestrator core that knows nothing about any one backend, talking over HTTP to GPU-heavy services it can swap out.
           </p>
           <p style="font-size: 16px; line-height: 1.65; color: var(--dim); margin: 20px 0 0; max-width: 56ch">
-            FFmpeg and WhisperX run as separate services, with an optional DaVinci Resolve seat for the RAW formats FFmpeg can't decode. The core asks a registry for a connector by type; config picks the implementation.
+            Transcription and proxy rendering run as separate services reached over HTTP. Rendering routes per clip across backends - a license-free FFmpeg path for the common codecs, an optional DaVinci Resolve seat for the proprietary RAW it can't decode. The core asks a registry for a connector by type; config picks the implementation.
           </p>
         </div>
       </div>
@@ -183,7 +183,7 @@ const principles: { t: string; d: string }[] = [
             The Studio, in Dunkeld. Run by a director of photography who's also a platform engineer - so the tools come out of the friction of doing the work, not out of a roadmap.
           </p>
           <p style="font-size: 15px; line-height: 1.65; color: var(--dim); margin: 20px 0 0">
-            Licensed AGPL-3.0-or-later. Self-hosters welcome; the source opens once it's past v0.1.
+            Licensed AGPL-3.0-or-later. The license-free FFmpeg render path lands before the source opens, so a self-hoster needs no Resolve licence for everyday codecs - the Resolve seat stays optional, reserved for RAW. Source opens once it's past v0.1.
           </p>
           <div style="margin-top: 28px; display: flex; gap: 28px; flex-wrap: wrap">
             <a href="/#tools" style="font-size: 15px; color: var(--ink); border-bottom: 1px solid var(--faint); padding-bottom: 2px">All tools</a>
