@@ -1,0 +1,314 @@
+---
+// Detail page for the dailies pipeline - the studio's in-development media
+// intelligence tool. Standalone and linkable so it can be cited from an
+// article. Copy is grounded in the tool's own README + architecture notes;
+// no GitHub link because the repo is private during development (TOOLS[0].link
+// is null on the landing for the same reason).
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { imgSet } from "../../data/studio";
+
+const heroImg = await imgSet("/images/bynow/4.hd.jpg");
+const bandImg = await imgSet("/images/sneaker/8.hd.jpg");
+
+const meta: [string, string][] = [
+  ["Status", "v0.1 · in development"],
+  ["What", "Media intelligence pipeline"],
+  ["Stack", "FastAPI · Prefect · Postgres"],
+  ["License", "AGPL-3.0-or-later"],
+];
+
+// The pipeline, stage by stage. The first five are the v0.1 vertical slice
+// (the default chain); faces is flow-driven but opt-in per job. Slate, visual
+// tags, focus and reconcile come after - see the note under the list.
+const stages: { t: string; d: string }[] = [
+  { t: "Ingest", d: "Scan the camera cards and recorder files into a shoot. One source file per clip, dimensions and codec filled in." },
+  { t: "Probe", d: "ffprobe every clip for resolution, codec, framerate and embedded timecode - cheap, local, in-process." },
+  { t: "Proxy", d: "Viewing proxies off the camera originals, routed per clip across render backends: a license-free FFmpeg path for the common codecs, an optional DaVinci Resolve seat for the proprietary RAW it can't decode (X-OCN, ARRIRAW, BRAW, R3D). A clip no backend can handle is flagged, not fatal." },
+  { t: "Sync", d: "Extract the clip's audio, then match standalone recorder files to picture by timecode - down to the offset of each clip's first frame inside the take." },
+  { t: "Transcribe", d: "WhisperX turns dialogue into timed, searchable transcripts - find the line, not just the clip." },
+  { t: "Faces", d: "Track who appears in each clip and when, against a per-shoot person registry. Flow-driven today, requested per job rather than run by default." },
+];
+
+// Why HTTP-from-day-one matters, in studio language rather than protocol terms.
+const principles: { t: string; d: string }[] = [
+  { t: "API-first, no Mac dependency", d: "Driveable from a web UI, a curl-able REST API, or an automated trigger. No workstation is load-bearing." },
+  { t: "Connectors are the boundary", d: "Self-hosted WhisperX or a managed transcriber; an FFmpeg path or a Resolve seat for proxies - which backend handles a clip is a config edit and a capability check, never a rewrite." },
+  { t: "Deploy is a config file", d: "The same image runs in docker-compose on a laptop and on the cluster in production. Different config, not different code." },
+];
+
+// Roadmap - three horizons, grounded in the orchestrator's own deferral notes
+// and open issues: durable runs (no more inline-asyncio), the real render and
+// transcribe backends, then the Phase 2 enrichment + vector search.
+const roadmap: { when: string; phase: string; title: string; items: string[] }[] = [
+  {
+    when: "Now",
+    phase: "v0.1",
+    title: "The vertical slice",
+    items: [
+      "Ingest, probe, proxy, sync and transcribe, running end to end - faces on request.",
+      "The shoot's screenplay parsed into scene metadata, ready for what comes next.",
+      "Search across filenames and transcripts, on stand-in backends that need no GPU - the real services swap in by config.",
+    ],
+  },
+  {
+    when: "Next",
+    phase: "Phase 1",
+    title: "Real backends, durable runs",
+    items: [
+      "The license-free FFmpeg renderer and the DaVinci Resolve seat wired in for real transcodes - RAW included.",
+      "A Prefect server and per-backend work pools: runs survive a restart, and clips fan out in parallel instead of one at a time.",
+      "Alembic migrations and scheduled database backups - the operational floor.",
+    ],
+  },
+  {
+    when: "Later",
+    phase: "Phase 2",
+    title: "Enrichment + search",
+    items: [
+      "Slate OCR, visual tags, focus timelines and a reconcile pass against the department reports - correlated with the scene metadata.",
+      "Semantic and face search on pgvector, with a Qdrant offload path as embedding volume grows.",
+      "The source opens, AGPL-3.0, once it's past v0.1.",
+    ],
+  },
+];
+---
+
+<Base
+  title="The dailies pipeline · The Studio"
+  description="A per-shoot media intelligence pipeline - raw footage in, a searchable library out. Transcripts, slate metadata, face occurrences, focus timelines, across years of accumulated shoots. Built by The Studio."
+>
+  <div style="position: relative">
+    <Nav crumb="The dailies pipeline" />
+
+    {/* HERO - full-bleed darkened still, same treatment as the landing tools block */}
+    <section style="position: relative; height: min(720px, 86vh); overflow: hidden">
+      <img
+        src={heroImg.src}
+        srcset={heroImg.srcset}
+        sizes="100vw"
+        width={heroImg.width}
+        height={heroImg.height}
+        alt=""
+        style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) saturate(0.55)"
+      />
+      <div style="position: absolute; inset: 0; background: linear-gradient(160deg, rgba(20,20,22,0.45) 0%, rgba(0,0,0,0.82) 100%)"></div>
+      <div class="hero-caption" style="bottom: clamp(28px, 6vh, 56px); pointer-events: none">
+        <div style="font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(237,232,221,0.85); margin-bottom: 18px">
+          A tool · In development
+        </div>
+        <h1 style="font-size: clamp(56px, 9vw, 120px); font-weight: 600; letter-spacing: -0.045em; line-height: 0.9; margin: 0; color: var(--ink); font-family: var(--font-display)">
+          The dailies pipeline.
+        </h1>
+        <p style="font-size: clamp(17px, 2.4vw, 22px); color: rgba(237,232,221,0.82); max-width: 60ch; margin: 22px 0 0; line-height: 1.55">
+          Raw footage in, a searchable library out.
+        </p>
+      </div>
+    </section>
+
+    {/* META BAR - at a glance, mirrors the case-study layout */}
+    <section class="section" style="padding: 56px 48px">
+      <div class="meta-grid" style="padding-top: 4px">
+        {
+          meta.map(([k, v]) => (
+            <div>
+              <div style="font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-bottom: 10px">{k}</div>
+              <div style="font-size: 16px; color: var(--ink); line-height: 1.45">{v}</div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    {/* THE PROBLEM - the why, in the studio's voice */}
+    <section class="section">
+      <div class="label-row">
+        <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Why</div>
+        <div style="max-width: 62ch">
+          <p style="font-size: 21px; line-height: 1.6; margin: 0; color: var(--ink)">
+            Most colour and edit suites don't talk to your shoot the way they should. The work that gets lost in the dailies process is the same work that gets re-done in the grade - finding the take, finding the line, finding the look.
+          </p>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--dim); margin: 22px 0 0">
+            So we built something that doesn't lose it. The pipeline takes the camera originals off a shoot and produces an enriched, searchable library - proxies, transcripts, slate metadata, face occurrences, focus timelines and visual tags - indexed for search across years of accumulated work, not just the project in front of you.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* HOW IT WORKS - the stages, as numbered service rows */}
+    <section class="section">
+      <div class="split-head">
+        <div>
+          <div style="font-size: 13.5px; color: var(--accent); margin-bottom: 18px; letter-spacing: 0.04em">01 - the pipeline</div>
+          <h2 style="font-size: clamp(48px, 6vw, 80px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">How it works.</h2>
+        </div>
+        <div style="padding-top: 14px">
+          <p style="font-size: 19px; line-height: 1.65; margin: 0">
+            A shoot moves through a chain of stages. Each one is idempotent - re-running a job only does the work that's missing.
+          </p>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--dim); margin: 20px 0 0; max-width: 56ch">
+            The vertical slice - ingest, probe, proxy, sync, transcribe - runs end to end today, with faces available per job. Stand-in backends let it run with no GPU and no footage in local dev and CI; pointing config at the real render and transcription services is the only change for production.
+          </p>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--rule)">
+        {
+          stages.map((s, i) => (
+            <div class="service-row" style="padding: 24px 0; border-bottom: 1px solid var(--rule)">
+              <span style="font-size: clamp(21px, 2.8vw, 26px); font-weight: 500; letter-spacing: -0.015em">{s.t}</span>
+              <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{s.d}</span>
+              <span class="num" style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <div style="padding: 28px 0 0">
+        <p style="font-size: 15px; line-height: 1.7; color: var(--faint); margin: 0; max-width: 70ch">
+          Slate, visual tags, focus and reconcile are declared in the schema but not yet driven by a flow - the enrichment layer, mapped out in the roadmap below.
+        </p>
+      </div>
+    </section>
+
+    {/* HAND-OFF - the enriched metadata rides back into the NLEs, not a walled garden */}
+    <section class="section">
+      <div class="label-row">
+        <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Hand-off</div>
+        <div style="max-width: 62ch">
+          <p style="font-size: 21px; line-height: 1.6; margin: 0; color: var(--ink)">
+            None of it stays walled up in another tool. The enriched metadata rides back into the edit and the grade as native fields - bin columns and markers, not a second screen to keep checking.
+          </p>
+          <ul style="margin: 26px 0 0; padding: 0; list-style: none">
+            <li style="font-size: 16px; line-height: 1.6; color: var(--dim); padding-bottom: 13px; margin-bottom: 13px; border-bottom: 1px dashed var(--rule)">
+              <span style="color: var(--ink)">Avid Media Composer</span> - ALE, the standard dailies log: scene, shot and take straight into the bin.
+            </li>
+            <li style="font-size: 16px; line-height: 1.6; color: var(--dim); padding-bottom: 13px; margin-bottom: 13px; border-bottom: 1px dashed var(--rule)">
+              <span style="color: var(--ink)">DaVinci Resolve</span> - a metadata CSV today; transcript, face and focus markers pushed to the render seat next.
+            </li>
+            <li style="font-size: 16px; line-height: 1.6; color: var(--dim)">
+              <span style="color: var(--ink)">Premiere Pro</span> - XMP sidecars, on the way.
+            </li>
+          </ul>
+          <p style="font-size: 15px; line-height: 1.65; color: var(--dim); margin: 24px 0 0">
+            Every clip is keyed by its source file, so on the editor's side it's a relink - the columns come with it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* BAND - a darkened still to break the page, cinematic */}
+    <section style="position: relative; overflow: hidden; height: 340px; border-top: 1px solid var(--rule)">
+      <img
+        src={bandImg.src}
+        srcset={bandImg.srcset}
+        sizes="100vw"
+        width={bandImg.width}
+        height={bandImg.height}
+        alt=""
+        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.45) saturate(0.6)"
+      />
+      <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 60%, transparent 100%)"></div>
+      <div class="hero-caption" style="bottom: 32px">
+        <div style="font-size: 17px; line-height: 1.6; color: rgba(237,232,221,0.9); max-width: 64ch">
+          The take is in there somewhere - the slate, the line, the face, the focus pull. The pipeline is how you find it again two years later.
+        </div>
+      </div>
+    </section>
+
+    {/* HOW IT'S BUILT - the principles that keep it portable */}
+    <section class="section">
+      <div class="split-head">
+        <div>
+          <div style="font-size: 13.5px; color: var(--accent); margin-bottom: 18px; letter-spacing: 0.04em">02 - the shape of it</div>
+          <h2 style="font-size: clamp(48px, 6vw, 80px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">How it's built.</h2>
+        </div>
+        <div style="padding-top: 14px">
+          <p style="font-size: 19px; line-height: 1.65; margin: 0">
+            An orchestrator core that knows nothing about any one backend, talking over HTTP to GPU-heavy services it can swap out.
+          </p>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--dim); margin: 20px 0 0; max-width: 56ch">
+            Transcription and proxy rendering run as separate services reached over HTTP. Rendering routes per clip across backends - a license-free FFmpeg path for the common codecs, an optional DaVinci Resolve seat for the proprietary RAW it can't decode. The core asks a registry for a connector by type; config picks the implementation.
+          </p>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--rule)">
+        {
+          principles.map((p, i) => (
+            <div class="service-row" style="padding: 26px 0; border-bottom: 1px solid var(--rule)">
+              <span style="font-size: clamp(20px, 2.6vw, 25px); font-weight: 500; letter-spacing: -0.015em">{p.t}</span>
+              <span style="font-size: 15px; color: var(--dim); line-height: 1.55">{p.d}</span>
+              <span class="num" style="font-size: 13px; color: var(--faint); text-align: right">0{i + 1}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    {/* ROADMAP - three horizons, grounded in the deferral table + open issues */}
+    <section class="section">
+      <div class="split-head">
+        <div>
+          <div style="font-size: 13.5px; color: var(--accent); margin-bottom: 18px; letter-spacing: 0.04em">03 - what's next</div>
+          <h2 style="font-size: clamp(48px, 6vw, 80px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.92; margin: 0; font-family: var(--font-display)">Roadmap.</h2>
+        </div>
+        <div style="padding-top: 14px">
+          <p style="font-size: 19px; line-height: 1.65; margin: 0">
+            Built in horizons - a working slice first, then the real backends and durable runs, then the enrichment layer.
+          </p>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--dim); margin: 20px 0 0; max-width: 56ch">
+            It's in development, so these are intentions, not promises. The shape is fixed; the order can move.
+          </p>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--rule)">
+        {
+          roadmap.map((h, i) => (
+            <div class="label-row" style="padding: 34px 0; border-bottom: 1px solid var(--rule)">
+              <div>
+                <div style={`font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 10px; color: ${i === 0 ? "var(--accent)" : "var(--dim)"}`}>{h.when}</div>
+                <div style="font-size: 21px; font-weight: 500; letter-spacing: -0.015em; color: var(--ink)">{h.title}</div>
+                <div style="font-size: 12.5px; color: var(--faint); margin-top: 6px">{h.phase}</div>
+              </div>
+              <ul style="margin: 0; padding: 0; list-style: none">
+                {
+                  h.items.map((it, j) => (
+                    <li
+                      style={`font-size: 16px; line-height: 1.6; color: var(--dim); ${j < h.items.length - 1 ? "padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px dashed var(--rule)" : ""}`}
+                    >
+                      {it}
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    {/* PROVENANCE - who built it and why, closing the loop to the studio */}
+    <section class="section">
+      <div class="label-row">
+        <div style="font-size: 13.5px; color: var(--dim); padding-top: 4px">Built by</div>
+        <div style="max-width: 62ch">
+          <p style="font-size: 18px; line-height: 1.65; margin: 0; color: var(--ink)">
+            The Studio, in Dunkeld. Run by a director of photography who's also a platform engineer - so the tools come out of the friction of doing the work, not out of a roadmap.
+          </p>
+          <p style="font-size: 15px; line-height: 1.65; color: var(--dim); margin: 20px 0 0">
+            Licensed AGPL-3.0-or-later. The license-free FFmpeg render path lands before the source opens, so a self-hoster needs no Resolve licence for everyday codecs - the Resolve seat stays optional, reserved for RAW. Source opens once it's past v0.1.
+          </p>
+          <div style="margin-top: 28px; display: flex; gap: 28px; flex-wrap: wrap">
+            <a href="/#tools" style="font-size: 15px; color: var(--ink); border-bottom: 1px solid var(--faint); padding-bottom: 2px">All tools</a>
+            <a href="mailto:studio@imla.ch" style="font-size: 15px; color: var(--ink); border-bottom: 1px solid var(--faint); padding-bottom: 2px">Talk to us - studio@imla.ch</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </div>
+</Base>
