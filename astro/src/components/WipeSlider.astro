@@ -14,11 +14,13 @@ interface Props {
   vtName?: string;
   /** "Log / Graded" corner chips. Off for hero use where the title carries the page. */
   corners?: boolean;
+  /** Responsive `sizes` hint. Defaults to full-bleed; pass 50vw for grid use. */
+  sizes?: string;
 }
-import { img } from "../data/studio";
-const { src, alt = "", aspectRatio = "16 / 9", height, vtName, corners = true } = Astro.props;
+import { imgSet } from "../data/studio";
+const { src, alt = "", aspectRatio = "16 / 9", height, vtName, corners = true, sizes = "100vw" } = Astro.props;
 
-const url = await img(src);
+const im = await imgSet(src);
 const boxStyle = height
   ? `height: ${height};`
   : `aspect-ratio: ${aspectRatio};`;
@@ -26,8 +28,8 @@ const afterStyle = vtName ? `view-transition-name: ${vtName};` : undefined;
 ---
 
 <div class="wipe" style={boxStyle}>
-  <img class="layer before" src={url} alt={alt} draggable="false" />
-  <img class="layer after" src={url} alt="" draggable="false" style={afterStyle} />
+  <img class="layer before" src={im.src} srcset={im.srcset} sizes={sizes} width={im.width} height={im.height} alt={alt} draggable="false" />
+  <img class="layer after" src={im.src} srcset={im.srcset} sizes={sizes} width={im.width} height={im.height} alt="" draggable="false" style={afterStyle} />
   <div class="line"><div class="handle">‹›</div></div>
   {corners && <span class="corner log">Log</span>}
   {corners && <span class="corner graded">Graded</span>}

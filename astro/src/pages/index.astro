@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import SweepCard from "../components/SweepCard.astro";
-import { FILMS, SOUND_RECENT, TOOLS, img } from "../data/studio";
+import { FILMS, SOUND_RECENT, TOOLS, imgSet } from "../data/studio";
 
 const colourServices = [
   { t: "Grade", d: "Davinci Resolve, ACES-managed. From single pickups to full feature delivery." },
@@ -17,6 +17,15 @@ const soundServices = [
 ];
 const colourRecent = FILMS.map((f) => `${f.title} (${f.year})`).join(" · ");
 const featured = TOOLS[0];
+
+// Responsive images, source-capped (see imgSet). Full-bleed unless the markup
+// passes a narrower `sizes`.
+const heroImg = await imgSet("/images/feeble/3.jpg");
+const triptychColour = await imgSet("/images/feeble/5.jpg");
+const triptychSound = await imgSet("/sound-room.png");
+const triptychTools = await imgSet("/images/sneaker/4.hd.jpg");
+const soundRoom = await imgSet("/sound-room.png");
+const featuredImg = await imgSet("/images/bynow/4.hd.jpg");
 ---
 
 <Base title="The Studio · Post-production for filmmakers">
@@ -27,7 +36,11 @@ const featured = TOOLS[0];
     <section style="position: relative; height: min(820px, 92vh); overflow: hidden">
       <img
         class="hero-img"
-        src={await img("/images/feeble/3.jpg")}
+        src={heroImg.src}
+        srcset={heroImg.srcset}
+        sizes="100vw"
+        width={heroImg.width}
+        height={heroImg.height}
         alt=""
         style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; filter: brightness(0.68) saturate(0.92)"
       />
@@ -56,7 +69,7 @@ const featured = TOOLS[0];
       <div class="triptych-grid">
         <a href="#colour" class="triptych-card">
           <div class="media">
-            <img src={await img("/images/feeble/5.jpg")} alt="" />
+            <img src={triptychColour.src} srcset={triptychColour.srcset} sizes="(max-width: 900px) 100vw, 33vw" width={triptychColour.width} height={triptychColour.height} alt="" />
             <span class="jump"><span>To the suite</span><span class="arrow">↓</span></span>
           </div>
           <div style="padding-top: 20px">
@@ -72,7 +85,7 @@ const featured = TOOLS[0];
 
         <a href="#sound" class="triptych-card">
           <div class="media">
-            <img src={await img("/sound-room.png")} alt="" />
+            <img src={triptychSound.src} srcset={triptychSound.srcset} sizes="(max-width: 900px) 100vw, 33vw" width={triptychSound.width} height={triptychSound.height} alt="" />
             <span class="jump"><span>To the room</span><span class="arrow">↓</span></span>
           </div>
           <div style="padding-top: 20px">
@@ -88,7 +101,7 @@ const featured = TOOLS[0];
 
         <a href="#tools" class="triptych-card">
           <div class="media">
-            <img src={await img("/images/sneaker/4.hd.jpg")} alt="" style="filter: brightness(0.5) saturate(0.5)" />
+            <img src={triptychTools.src} srcset={triptychTools.srcset} sizes="(max-width: 900px) 100vw, 33vw" width={triptychTools.width} height={triptychTools.height} alt="" style="filter: brightness(0.5) saturate(0.5)" />
             <span class="jump"><span>To the bench</span><span class="arrow">↓</span></span>
           </div>
           <div style="padding-top: 20px">
@@ -176,7 +189,11 @@ const featured = TOOLS[0];
       {/* Real photograph of the room */}
       <div style="position: relative; overflow: hidden; height: 480px">
         <img
-          src={await img("/sound-room.png")}
+          src={soundRoom.src}
+          srcset={soundRoom.srcset}
+          sizes="100vw"
+          width={soundRoom.width}
+          height={soundRoom.height}
           alt="The mix room - Adam Audio + Genelec 7.1.4 Atmos in Dunkeld"
           style="width: 100%; height: 100%; object-fit: cover"
         />
@@ -220,7 +237,7 @@ const featured = TOOLS[0];
 
       {/* Featured tool - links to its detail page */}
       <a href={featured.href} class="featured-tool" style="display: block; position: relative; height: 520px; overflow: hidden; border: 1px solid var(--rule)">
-        <img src={await img("/images/bynow/4.hd.jpg")} alt="" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) saturate(0.5)" />
+        <img src={featuredImg.src} srcset={featuredImg.srcset} sizes="100vw" width={featuredImg.width} height={featuredImg.height} alt="" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) saturate(0.5)" />
         <div style="position: absolute; inset: 0; background: linear-gradient(160deg, rgba(20,20,22,0.5) 0%, rgba(0,0,0,0.8) 100%)"></div>
         <div style="position: absolute; top: 24px; left: 28px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(237,232,221,0.85)">In development</div>
         <div style="position: absolute; bottom: 32px; left: 28px; right: 28px">

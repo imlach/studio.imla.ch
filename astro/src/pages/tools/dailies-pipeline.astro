@@ -7,7 +7,10 @@
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
-import { img } from "../../data/studio";
+import { imgSet } from "../../data/studio";
+
+const heroImg = await imgSet("/images/bynow/4.hd.jpg");
+const bandImg = await imgSet("/images/sneaker/8.hd.jpg");
 
 const meta: [string, string][] = [
   ["Status", "v0.1 · in development"],
@@ -82,7 +85,11 @@ const roadmap: { when: string; phase: string; title: string; items: string[] }[]
     {/* HERO - full-bleed darkened still, same treatment as the landing tools block */}
     <section style="position: relative; height: min(720px, 86vh); overflow: hidden">
       <img
-        src={await img("/images/bynow/4.hd.jpg")}
+        src={heroImg.src}
+        srcset={heroImg.srcset}
+        sizes="100vw"
+        width={heroImg.width}
+        height={heroImg.height}
         alt=""
         style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) saturate(0.55)"
       />
@@ -194,7 +201,11 @@ const roadmap: { when: string; phase: string; title: string; items: string[] }[]
     {/* BAND - a darkened still to break the page, cinematic */}
     <section style="position: relative; overflow: hidden; height: 340px; border-top: 1px solid var(--rule)">
       <img
-        src={await img("/images/sneaker/8.hd.jpg")}
+        src={bandImg.src}
+        srcset={bandImg.srcset}
+        sizes="100vw"
+        width={bandImg.width}
+        height={bandImg.height}
         alt=""
         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.45) saturate(0.6)"
       />

@@ -9,12 +9,64 @@ const sources = import.meta.glob<{ default: ImageMetadata }>(
   "../assets/images/**/*.{jpg,jpeg,png}",
   { eager: true },
 );
-// Render-time only (component/page frontmatter) - the image service isn't
-// available during module evaluation, so this must not run at top level.
-export const img = async (p: string, width = 1600): Promise<string> => {
+
+const lookup = (p: string): ImageMetadata => {
   const mod = sources[`../assets/images${p.replace(/^\/images/, "")}`];
   if (!mod) throw new Error(`studio.ts: missing image ${p}`);
-  return (await getImage({ src: mod.default, width, format: "webp" })).src;
+  return mod.default;
+};
+
+// WebP quality. Astro's default (~80) shows visible compression on the
+// gradients and skin tones that fill most of these frames, brutal on a large
+// 4K display; 88 is clean at a modest size cost - worth it for a photography
+// portfolio.
+const QUALITY = 88;
+
+// Width ladder for responsive srcsets. Each entry below a source's native
+// width is emitted; the source width caps it - we never upscale past the plate.
+const LADDER = [640, 960, 1280, 1600, 1920, 2560, 3840];
+
+// Render-time only (component/page frontmatter) - the image service isn't
+// available during module evaluation, so these must not run at top level.
+
+// Single optimised URL - for small or heavily-filtered decorative uses where a
+// full srcset is overkill.
+export const img = async (p: string, width = 1600): Promise<string> => {
+  const src = lookup(p);
+  return (
+    await getImage({
+      src,
+      width: Math.min(width, src.width),
+      format: "webp",
+      quality: QUALITY,
+    })
+  ).src;
+};
+
+export interface ResponsiveImage {
+  src: string;
+  srcset: string;
+  width: number;
+  height: number;
+}
+
+// Responsive variant - emits a srcset capped at the source width so 4K / hi-DPI
+// displays pull the sharpest frame the plate allows and smaller screens don't
+// overpay. Pair with a `sizes` attribute at the call site (the components
+// default to full-bleed).
+export const imgSet = async (p: string): Promise<ResponsiveImage> => {
+  const src = lookup(p);
+  const cap = src.width;
+  const widths = [...new Set([...LADDER.filter((w) => w < cap), cap])].sort(
+    (a, b) => a - b,
+  );
+  const r = await getImage({ src, widths, format: "webp", quality: QUALITY });
+  return {
+    src: r.src,
+    srcset: r.srcSet.attribute,
+    width: cap,
+    height: Math.round((cap * src.height) / src.width),
+  };
 };
 
 // Visual filter constants - simulate "log/ungraded" via CSS so we can show
