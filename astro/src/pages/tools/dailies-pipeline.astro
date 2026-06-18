@@ -21,7 +21,7 @@ const meta: [string, string][] = [
 const stages: { t: string; d: string }[] = [
   { t: "Ingest", d: "Scan the camera cards and recorder files into a shoot. One source file per clip, dimensions and codec filled in." },
   { t: "Probe", d: "ffprobe every clip for resolution, codec, framerate and embedded timecode - cheap, local, in-process." },
-  { t: "Proxy", d: "DaVinci Resolve renders viewing proxies off the camera originals, on a render seat that never has to be a Mac on your desk." },
+  { t: "Proxy", d: "FFmpeg renders viewing proxies off the camera originals - cheap, license-free, the default for the codecs it can read. Proprietary RAW it can't decode (X-OCN, ARRIRAW, BRAW, R3D) falls through to an optional DaVinci Resolve seat." },
   { t: "Sync", d: "Match standalone audio-recorder files to picture by timecode, with the offset of each clip's first frame inside the take." },
   { t: "Transcribe", d: "WhisperX turns dialogue into timed, searchable transcripts - find the line, not just the clip." },
   { t: "Slate", d: "Read scene / shot / take off the clapperboard, and pull scene metadata from the shoot's screenplay." },
@@ -31,7 +31,7 @@ const stages: { t: string; d: string }[] = [
 // Why HTTP-from-day-one matters, in studio language rather than protocol terms.
 const principles: { t: string; d: string }[] = [
   { t: "API-first, no Mac dependency", d: "Driveable from a web UI, a curl-able REST API, or an automated trigger. No workstation is load-bearing." },
-  { t: "Connectors are the boundary", d: "Swapping DaVinci Resolve for another renderer, or self-hosted WhisperX for a managed transcriber, is a config edit - never a rewrite." },
+  { t: "Connectors are the boundary", d: "Swapping the FFmpeg renderer for a Resolve seat on RAW, or self-hosted WhisperX for a managed transcriber, is a config edit - never a rewrite." },
   { t: "Deploy is a config file", d: "The same image runs in docker-compose on a laptop and on the cluster in production. Different config, not different code." },
 ];
 ---
@@ -156,7 +156,7 @@ const principles: { t: string; d: string }[] = [
             An orchestrator core that knows nothing about any one backend, talking over HTTP to GPU-heavy services it can swap out.
           </p>
           <p style="font-size: 16px; line-height: 1.65; color: var(--dim); margin: 20px 0 0; max-width: 56ch">
-            DaVinci Resolve render seats and WhisperX transcription run as separate services. The core asks a registry for a connector by type; config picks the implementation.
+            FFmpeg and WhisperX run as separate services, with an optional DaVinci Resolve seat for the RAW formats FFmpeg can't decode. The core asks a registry for a connector by type; config picks the implementation.
           </p>
         </div>
       </div>
